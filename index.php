@@ -12,74 +12,54 @@ $request_uri = $_SERVER['REQUEST_URI'];
 include 'app/views/includes/head.php'; // Inclus dans chaque page pour l'en-tête
 
 // Gérer la logique en fonction de la route
-switch ($request_uri) {
-    case '/':
-        // Route d'accueil, afficher la liste des livres
-        include 'app/controllers/LivreController.php';
-        $livreController = new LivreController();
-        $livreController->listLivres();
-        break;
-
-    case '/livres/list':
-        // Afficher la liste des livres
-        include 'app/controllers/LivreController.php';
-        $livreController = new LivreController();
-        $livreController->listLivres();
-        break;
-
-    case '/livres/create':
-        // Formulaire pour ajouter un livre
-        include 'app/controllers/LivreController.php';
-        $livreController = new LivreController();
-        $livreController->createLivre();
-        break;
-
-    case '/livres/detail':
-        // Afficher les détails d'un livre
-        include 'app/controllers/LivreController.php';
-        $livreController = new LivreController();
-        $livreController->detailLivre();
-        break;
-
-    case '/exemplaires/create':
-        // Ajouter un exemplaire
-        include 'app/controllers/ExemplaireController.php';
-        $exemplaireController = new ExemplaireController();
-        $exemplaireController->createExemplaire();
-        break;
-
-    case '/transactions/list':
-        // Afficher la liste des transactions (emprunts/retours)
-        include 'app/controllers/TransactionController.php';
-        $transactionController = new TransactionController();
-        $transactionController->listTransactions();
-        break;
-
-    case '/transactions/history':
-        // Afficher l'historique des transactions
-        include 'app/controllers/TransactionController.php';
-        $transactionController = new TransactionController();
-        $transactionController->historyTransaction();
-        break;
-
-    case '/employes/login':
-        // Page de connexion des employés
-        include 'app/controllers/EmployeController.php';
-        $employeController = new EmployeController();
-        $employeController->loginEmploye();
-        break;
-
-    case '/employes/list':
-        // Afficher la liste des employés
-        include 'app/controllers/EmployeController.php';
-        $employeController = new EmployeController();
-        $employeController->listEmployes();
-        break;
-
-    default:
-        // Si l'URL n'est pas reconnue, afficher une page 404
-        echo "Page non trouvée. Erreur 404.";
-        break;
+if ($request_uri == '/') {
+    // Route d'accueil, afficher la liste des livres
+    include 'app/controllers/LivreController.php';
+    $livreController = new LivreController();
+    $livreController->listLivres();
+} elseif ($request_uri == '/livres/list') {
+    // Afficher la liste des livres
+    include 'app/controllers/LivreController.php';
+    $livreController = new LivreController();
+    $livreController->listLivres();
+} elseif ($request_uri == '/livres/create') {
+    // Formulaire pour ajouter un livre
+    include 'app/controllers/LivreController.php';
+    $livreController = new LivreController();
+    $livreController->createLivre();
+} elseif ($request_uri == '/livres/detail') {
+    // Afficher les détails d'un livre
+    include 'app/controllers/LivreController.php';
+    $livreController = new LivreController();
+    $livreController->detailLivre();
+} elseif ($request_uri == '/exemplaires/create') {
+    // Ajouter un exemplaire
+    include 'app/controllers/ExemplaireController.php';
+    $exemplaireController = new ExemplaireController();
+    $exemplaireController->createExemplaire();
+} elseif ($request_uri == '/transactions/list') {
+    // Afficher la liste des transactions (emprunts/retours)
+    include 'app/controllers/TransactionController.php';
+    $transactionController = new TransactionController();
+    $transactionController->listTransactions();
+} elseif ($request_uri == '/transactions/history') {
+    // Afficher l'historique des transactions
+    include 'app/controllers/TransactionController.php';
+    $transactionController = new TransactionController();
+    $transactionController->historyTransaction();
+} elseif ($request_uri == '/employes/login') {
+    // Page de connexion des employés
+    include 'app/controllers/EmployeController.php';
+    $employeController = new EmployeController();
+    $employeController->loginEmploye();
+} elseif ($request_uri == '/employes/list') {
+    // Afficher la liste des employés
+    include 'app/controllers/EmployeController.php';
+    $employeController = new EmployeController();
+    $employeController->listEmployes();
+} else {
+    // Si l'URL n'est pas reconnue, afficher une page 404
+    echo "Page non trouvée. Erreur 404.";
 }
 
 // Includer le pied de page (footer)
