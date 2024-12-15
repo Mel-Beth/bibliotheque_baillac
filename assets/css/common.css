@@ -1,13 +1,9 @@
-@import url();
+@import url(login.css);
 
 *,*:before,*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-}
-
-main {
-    margin: auto;
 }
 
 h1{

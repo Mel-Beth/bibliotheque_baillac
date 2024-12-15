@@ -1,0 +1,93 @@
+/* Styles de base */
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #c2e59c, #64b3f4); /* Couleurs naturelles et apaisantes */
+    font-family: 'Roboto', sans-serif;
+}
+
+
+.container-login {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    margin: 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.logo-login img {
+    width: 100px;
+    margin: 20px auto;
+}
+
+.title-login {
+    margin: 10px 0 20px;
+    font-size: 1.5em;
+    color: #2f4f4f; /* Couleur sombre et apaisante */
+}
+
+.label-login {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+.input-login {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.35);
+    color: #2f4f4f;
+    font-size: 1em;
+}
+
+.input-login:focus {
+    border-color: #3c763d; /* Vert évoquant la nature et la stabilité */
+}
+
+.remember-login {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 20px 0; /* Ajout de plus d'espace en haut et en bas */
+}
+
+.checkbox-login {
+    margin-right: 10px; /* Plus d'espace entre l'input et le label */
+}
+
+.btn-login {
+    background: rgba(255, 255, 255, 0.25);
+    color: #2f4f4f; /* Couleur sombre et apaisante */
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: background 0.3s, transform 0.3s; /* Ajout d'une transition pour un effet plus fluide */
+}
+
+.btn-login:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: translateY(-3px); /* Légère élévation au survol */
+}
