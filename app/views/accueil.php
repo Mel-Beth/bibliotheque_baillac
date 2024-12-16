@@ -22,15 +22,15 @@
         <section class="key-metrics">
             <div class="metric">
                 <h2>Total des emprunts</h2>
-                <p><?= htmlspecialchars($totalEmprunts) ?></p>
+                <p><?= htmlspecialchars($empruntsEnCours) ?></p>
             </div>
             <div class="metric">
                 <h2>Total des retours</h2>
-                <p><?= htmlspecialchars($totalRetours) ?></p>
+                <p><?= htmlspecialchars($retoursEffectues) ?></p>
             </div>
             <div class="metric">
                 <h2>Total des livres en transit</h2>
-                <p><?= htmlspecialchars($totalTransits) ?></p>
+                <p><?= htmlspecialchars($totalTransactions - ($empruntsEnCours + $retoursEffectues)) ?></p>
             </div>
             <div class="metric">
                 <h2>Total des livres disponibles</h2>
