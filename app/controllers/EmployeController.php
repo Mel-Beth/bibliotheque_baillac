@@ -31,9 +31,7 @@ class EmployeController
                 // Récupérer l'employé via le modèle
                 $employe = $this->model->getEmployeByEmail($email);
     
-                // Ajouter des débogages
-                var_dump($employe); // Vérifie si l'employé est récupéré correctement
-    
+                    
                 // Vérifier les informations d'identification
                 if ($employe && password_verify($password, $employe['mot_de_passe'])) {
                     // Connexion réussie, enregistrement dans la session
