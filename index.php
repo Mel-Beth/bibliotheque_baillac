@@ -71,8 +71,8 @@ if ($route[0] == "" || $route[0] == "accueil") {
 
 } elseif ($route[0] == "scanner") {
     include "app/controllers/ScannerController.php";
-    $scannerController = new ScannerController();
-    $scannerController->scanner();
+    // $scannerController = new ScannerController();
+    // $scannerController->scanner();
 
 } elseif ($route[0] == "logout") {
     include "app/controllers/LogoutController.php";
