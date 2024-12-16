@@ -17,21 +17,20 @@ class EmployeController
     public function loginEmploye()
     {
         $error = '';
-    
+
         // Vérifier si le formulaire a été soumis
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Nettoyer les entrées utilisateur
             $email = trim($_POST['email']);
             $password = trim($_POST['password']);
-    
+
             // Vérification des champs vides
             if (empty($email) || empty($password)) {
                 $error = 'Veuillez remplir tous les champs.';
             } else {
                 // Récupérer l'employé via le modèle
                 $employe = $this->model->getEmployeByEmail($email);
-    
-                    
+
                 // Vérifier les informations d'identification
                 if ($employe && password_verify($password, $employe['mot_de_passe'])) {
                     // Connexion réussie, enregistrement dans la session
@@ -39,21 +38,25 @@ class EmployeController
                     $_SESSION['employe_nom'] = $employe['nom'];
                     $_SESSION['employe_prenom'] = $employe['prenom'];
                     $_SESSION['role'] = $employe['role'];
-      
-                    // Rediriger vers la page d'accueil
-                    header('Location: accueil');  // Utilisez une redirection complète avec la route
+
+                    // Redirection vers la page en fonction du rôle
+                    if ($employe['role'] === 'responsable' || $employe['role'] === 'responsable_site') {
+                        // Si l'utilisateur est responsable ou responsable_site, on redirige vers la page admin
+                        header('Location: accueil_admin');
+                    } else {
+                        // Sinon, on redirige vers la page classique d'accueil
+                        header('Location: index.php?route=accueil');
+                    }
                     exit;
                 } else {
-                    // Si l'email ou mot de passe est incorrect
                     $error = 'Email ou mot de passe incorrect.';
                 }
             }
         }
-    
+
         // Afficher le formulaire de connexion avec message d'erreur
         include 'app/views/employes/loginEmploye.php';
     }
-    
-
 }
+
 ?>
