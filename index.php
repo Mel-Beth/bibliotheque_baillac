@@ -50,6 +50,9 @@ if ($route[0] == "" || $route[0] == "accueil") {
 } elseif ($route[0] == "employes") {
     include "app/models/Employe.php";
     include "app/controllers/EmployeController.php";
+} elseif ($route[0] == "employes") {
+    include "app/models/Employe.php";
+    include "app/controllers/EmployeController.php";
 
     $employeModel = new Employe($pdo);
     $controller = new EmployeController($employeModel);
