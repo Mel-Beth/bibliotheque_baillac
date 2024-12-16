@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    <li><a href="logout">Déconnexion</a></li>
     <div class="container-accueil">
         <!-- Section des informations globales -->
         <header class="header-accueil">
