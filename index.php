@@ -88,7 +88,7 @@ switch ($route[0]) {
         break;
 
     case "logout":
-        include 'app/controllers/LogoutController.php';
+        include 'app/controllers/Logout.php';
         $logoutController = new LogoutController();
         $logoutController->logout();
         break;

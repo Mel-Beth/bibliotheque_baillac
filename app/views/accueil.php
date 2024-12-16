@@ -13,12 +13,13 @@ if (!isset($_SESSION['employe_id'])) {
 
 <head>
     <?php include('includes/head.html'); ?>
-    <title>Connexion - Bibliothèque de Baillac</title>
+    <title>Bibliothèque de Baillac</title>
 </head>
 
 <body>
+<li><a href="logout">Déconnexion</a></li>
 
-<div class="user-header">
+<!-- <div class="user-header">
     <img src="<?php echo $user['photo']; ?>" alt="Photo de profil">
     <h2><?php echo $user['nom'] . ' ' . $user['prenom']; ?></h2>
     <p>Responsable de Section - <?php echo 'Bat. ' . $user['batiment'] . ' / Étage : ' . $user['etage']; ?></p>
@@ -46,4 +47,7 @@ if (!isset($_SESSION['employe_id'])) {
     <a href="index.php?route=scanner">
         <button>Scanner un ouvrage</button>
     </a>
-</div>
+</div> -->
+
+</body>
+</html>
