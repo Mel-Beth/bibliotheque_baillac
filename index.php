@@ -3,11 +3,11 @@
 session_start();
 
 // Inclure les fichiers nécessaires
-require 'config/database.php'; // Connexion à la base de données
+require_once 'config/database.php'; // Connexion à la base de données
 
 // Vérification de la connexion pour accéder aux pages protégées
 if (!isset($_SESSION['employe_id']) && (!isset($_GET['route']) || $_GET['route'] !== 'employes/login' && $_GET['route'] !== 'connexion')) {
-    header('Location: index.php?route=connexion'); // Rediriger vers la page de connexion si non connecté
+    header('Location: connexion');  // Rediriger vers la page de connexion si non connecté
     exit;
 }
 
@@ -16,18 +16,27 @@ $route = isset($_GET["route"]) ? explode('/', $_GET["route"]) : [''];
 
 // Routeur avec des conditions
 if ($route[0] == "" || $route[0] == "accueil") {
-    // Afficher la page d'accueil après la connexion
-    include "app/models/Transaction.php";
-    include "app/controllers/AccueilController.php";
+    // Si l'utilisateur est un administrateur (responsable ou responsable_site), on le redirige vers accueil_admin
+    if (isset($_SESSION['role']) && ($_SESSION['role'] === 'responsable' || $_SESSION['role'] === 'responsable_site')) {
+        header('Location: accueil_admin'); // Rediriger vers la page d'accueil admin
+        exit;
+    }
 
-    $transactionModel = new Transaction($pdo);
+    // Si ce n'est pas un admin, afficher la page d'accueil classique
+    require_once "app/models/Transaction.php"; // Assure-toi d'inclure le modèle Transaction une seule fois
+    require_once "app/controllers/AccueilController.php";
+
+    $transactionModel = new Transaction($pdo); // Utilise l'objet $pdo pour la base de données
     $controller = new AccueilController($transactionModel);
-    $controller->index();
+    $controller->afficherStatistiques();
+
+} elseif ($route[0] == "accueil_admin") {
+    // Afficher la page d'accueil spécifique aux administrateurs
+    require_once "app/views/accueil_admin.php";  // La page d'accueil des administrateurs
 
 } elseif ($route[0] == "livres") {
     include "app/controllers/LivreController.php";
     $controller = new LivreController();
-
     if (isset($route[1]) && $route[1] == "list") {
         $controller->listLivres();
     } elseif (isset($route[1]) && $route[1] == "create") {
@@ -43,7 +52,7 @@ if ($route[0] == "" || $route[0] == "accueil") {
     include "app/models/Employe.php";
     include "app/controllers/EmployeController.php";
 
-    $employeModel = new Employe($pdo);
+    $employeModel = new Employe($pdo);  // Assurez-vous que $pdo est la connexion PDO correcte
     $controller = new EmployeController($employeModel);
     $controller->loginEmploye();
 
@@ -70,9 +79,11 @@ if ($route[0] == "" || $route[0] == "accueil") {
     }
 
 } elseif ($route[0] == "scanner") {
+    include "app/models/Scanner.php";
     include "app/controllers/ScannerController.php";
     // $scannerController = new ScannerController();
     // $scannerController->scanner();
+
 
 } elseif ($route[0] == "logout") {
     include "app/controllers/LogoutController.php";
@@ -83,3 +94,6 @@ if ($route[0] == "" || $route[0] == "accueil") {
     // Si la route ne correspond à rien
     include "app/views/404.php";
 }
+
+
+?>

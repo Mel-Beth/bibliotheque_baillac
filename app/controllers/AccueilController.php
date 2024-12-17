@@ -1,4 +1,6 @@
 <?php
+// Inclure le modèle Transaction (une seule fois)
+require_once 'app/models/Transaction.php';
 
 class AccueilController
 {
@@ -7,23 +9,18 @@ class AccueilController
     public function __construct($transactionModel)
     {
         $this->transactionModel = $transactionModel;
-
-        // Vérifier si la session est déjà démarrée
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
     }
 
-    public function index()
+    public function afficherStatistiques()
     {
-        // Récupérer les chiffres globaux de la bibliothèque
-        $totalEmprunts = $this->transactionModel->countEmprunts();
-        $totalRetours = $this->transactionModel->countRetours();
-        $totalTransits = $this->transactionModel->countTransits();
+        // Utiliser les méthodes du modèle Transaction pour obtenir les statistiques
+        $totalTransactions = $this->transactionModel->countEmprunts() + $this->transactionModel->countRetours() + $this->transactionModel->countTransits();
+        $empruntsEnCours = $this->transactionModel->countEmprunts();
+        $retoursEffectues = $this->transactionModel->countRetours();
         $totalLivres = $this->transactionModel->countLivres();
 
-        // Charger la vue avec les données
-        include 'app/views/accueil.php';
+        // Transmettre les données à la vue
+        include "app/views/accueil.php";
     }
 }
 ?>

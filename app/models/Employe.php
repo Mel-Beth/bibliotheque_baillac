@@ -13,10 +13,19 @@ class Employe {
         $stmt = $this->db->prepare($query);  // Utilisation de PDO pour préparer la requête
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
-
-        // Retourner les informations de l'employé si trouvé
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getAllEmployes() {
+        $query = "SELECT id_employe, nom, prenom, email, telephone, role FROM employes ORDER BY id_employe";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetcghAll(PDO::FETCH_ASSOC);
+    }
+
 }
+
+
+
 
 ?>
