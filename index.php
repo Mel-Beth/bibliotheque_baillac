@@ -7,7 +7,7 @@ require_once 'config/database.php'; // Connexion à la base de données
 
 // Vérification de la connexion pour accéder aux pages protégées
 if (!isset($_SESSION['employe_id']) && (!isset($_GET['route']) || $_GET['route'] !== 'employes/login' && $_GET['route'] !== 'connexion')) {
-    header('Location: connexion');  // Rediriger vers la page de connexion si non connecté
+    header('Location: index.php?route=connexion');  // Rediriger vers la page de connexion si non connecté
     exit;
 }
 
