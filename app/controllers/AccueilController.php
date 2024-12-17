@@ -11,16 +11,15 @@ class AccueilController
         $this->transactionModel = $transactionModel;
     }
 
-    public function afficherStatistiques()
-    {
-        // Utiliser les méthodes du modèle Transaction pour obtenir les statistiques
-        $totalTransactions = $this->transactionModel->countEmprunts() + $this->transactionModel->countRetours() + $this->transactionModel->countTransits();
+    public function afficherStatistiques() {
         $empruntsEnCours = $this->transactionModel->countEmprunts();
         $retoursEffectues = $this->transactionModel->countRetours();
-        $totalLivres = $this->transactionModel->countLivres();
-
-        // Transmettre les données à la vue
-        include "app/views/accueil.php";
+        $livresEnTransit = $this->transactionModel->countLivresEnTransit();
+        $totalLivres = $this->transactionModel->countTotalLivres();
+    
+        include 'app/views/accueil'; // Inclure la vue d'accueil
     }
-}
+    
+    }
+
 ?>

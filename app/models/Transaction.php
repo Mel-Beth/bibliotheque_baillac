@@ -1,41 +1,56 @@
 <?php
 
-class Transaction
-{
+class Transaction {
     private $db;
 
-    public function __construct($pdo)
-    {
-        $this->db = $pdo;
+    // Le constructeur prend l'objet PDO
+    public function __construct($database) {
+        $this->db = $database;
     }
 
-    public function countEmprunts()
-    {
-        $query = "SELECT COUNT(*) AS total FROM historique_transactions WHERE statut = 'emprunté'";
-        $stmt = $this->db->query($query);
+    // Compter les emprunts en cours
+    public function countEmprunts() {
+        $query = "SELECT COUNT(*) as total FROM public.historique_transactions WHERE date_retour > NOW()";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     }
 
-    public function countRetours()
-    {
-        $query = "SELECT COUNT(*) AS total FROM historique_transactions WHERE statut = 'retourné'";
-        $stmt = $this->db->query($query);
+    // Compter les livres retournés
+    public function countRetours() {
+        $query = "SELECT COUNT(*) as total FROM public.historique_transactions WHERE date_retour <= NOW()";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     }
 
-    public function countTransits()
-    {
-        $query = "SELECT COUNT(*) AS total FROM historique_transactions WHERE statut = 'en transit'";
-        $stmt = $this->db->query($query);
-        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    // Compter les livres en transit
+    public function countLivresEnTransit() {
+        $query = "SELECT COUNT(*) AS total FROM public.historique_transactions ht
+                  JOIN public.exemplaires e ON ht.id_exemplaire = e.id_exemplaire
+                  WHERE e.etat = 'En transit'";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'] ?? 0; // Retourne 0 si aucun résultat
     }
 
-    public function countLivres()
-    {
-        $query = "SELECT COUNT(*) AS total FROM livres";
-        $stmt = $this->db->query($query);
-        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    // Compter le total des transactions
+    public function countTotalTransactions() {
+        $query = "SELECT COUNT(*) AS total FROM public.historique_transactions";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'] ?? 0; // Retourne 0 si aucune transaction
+    }
+
+    // Compter le total des livres disponibles
+    public function countTotalLivres() {
+        $query = "SELECT COUNT(*) AS total FROM public.exemplaires";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'] ?? 0; // Retourne 0 si aucun livre
     }
 }
-
 ?>
