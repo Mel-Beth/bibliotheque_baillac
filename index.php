@@ -37,6 +37,8 @@ if ($route[0] == "" || $route[0] == "accueil") {
 } elseif ($route[0] == "accueil_admin") {
     // Vérification stricte pour les admins (responsable ou responsable_site)
     if (isset($_SESSION['role']) && ($_SESSION['role'] === 'responsable' || $_SESSION['role'] === 'responsable_site')) {
+        require('app/models/Employe.php');
+        require('app/controllers/EmployeController.php');
         include 'app/views/accueil_admin.php'; // Page spécifique aux administrateurs
     } else {
         // Si l'utilisateur n'est pas un administrateur, rediriger vers la page d'accueil classique
@@ -45,13 +47,13 @@ if ($route[0] == "" || $route[0] == "accueil") {
     }
 } elseif ($route[0] == "scanner") {
     // Route pour afficher la page scanner
-    require_once "app/controllers/ScannerController.php";
     require_once "app/models/Scanner.php";
+    require_once "app/controllers/ScannerController.php";
 
-    $scannerModel = new Scanner($pdo); // Instancier le modèle du scanner
-    $scannerController = new ScannerController($scannerModel); // Instancier le contrôleur du scanner
+    // $scannerModel = new Scanner($pdo); // Instancier le modèle du scanner
+    // $scannerController = new ScannerController($scannerModel); // Instancier le contrôleur du scanner
 
-    $scannerController->afficherScanner(); // Afficher la page scanner
+    // $scannerController->afficherScanner(); // Afficher la page scanner
 
 } elseif ($route[0] == "livres") {
     // Route pour gérer les livres (afficher, ajouter, créer, etc.)

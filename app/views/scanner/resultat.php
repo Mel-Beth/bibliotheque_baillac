@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             echo "<div id='result-container'>";
             if ($livre) {
-                echo "<h2>Le livre existe :</h2>";
+                echo "<h2>Le livre existe bravo :</h2>";
                 var_dump($livre);
                 
                 $livre_status = '';
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<p>Erreur : " . htmlspecialchars($e->getMessage()) . "</p>";
         }
     } else {
-        echo "<p>Aucune donnée reçue.</p>";
+        echo "<p>Aucune donnée reçue .</p>";
     }
 }
 
