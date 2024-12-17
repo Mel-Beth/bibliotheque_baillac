@@ -1,41 +1,19 @@
 <?php
+// app/models/Transaction.php
 
-class Transaction
-{
-    private $db;
+class Transaction {
+    private $pdo;
 
-    public function __construct($pdo)
-    {
-        $this->db = $pdo;
+    // Le constructeur reçoit la connexion à la base de données
+    public function __construct($pdo) {
+        $this->pdo = $pdo;
     }
 
-    public function countEmprunts()
-    {
-        $query = "SELECT COUNT(*) AS total FROM historique_transactions WHERE statut = 'emprunté'";
-        $stmt = $this->db->query($query);
-        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
-    }
-
-    public function countRetours()
-    {
-        $query = "SELECT COUNT(*) AS total FROM historique_transactions WHERE statut = 'retourné'";
-        $stmt = $this->db->query($query);
-        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
-    }
-
-    public function countTransits()
-    {
-        $query = "SELECT COUNT(*) AS total FROM historique_transactions WHERE statut = 'en transit'";
-        $stmt = $this->db->query($query);
-        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
-    }
-
-    public function countLivres()
-    {
-        $query = "SELECT COUNT(*) AS total FROM livres";
-        $stmt = $this->db->query($query);
-        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    // Méthode pour récupérer toutes les transactions depuis la table historique_transactions
+    public function getAllTransactions() {
+        $stmt = $this->pdo->prepare("SELECT * FROM historique_transactions");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
-
 ?>
