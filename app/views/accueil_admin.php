@@ -72,6 +72,6 @@
         </table>
     </section>
 
-    <p><a href="index.php?route=logout">Se déconnecter</a></p>
+    <p><a href="logout">Se déconnecter</a></p>
 </body>
 </html>
