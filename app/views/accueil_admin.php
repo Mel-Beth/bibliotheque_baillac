@@ -21,7 +21,7 @@
             <input type="email" name="email" required>
             <label>Mot de passe :</label>
             <input type="password" name="mot_de_passe" required>
-            <label>Rôle (1=Admin, 2=Employé) :</label>
+            <label>Rôle</label>
             <input type="number" name="role" min="1" max="2" required>
             <label>Section :</label>
             <input type="text" name="section" required>
