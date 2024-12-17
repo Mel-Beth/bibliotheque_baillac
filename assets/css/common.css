@@ -1,4 +1,6 @@
 @import url(login.css);
+@import url(scan.css);
+@import url(resultat-scann.css);
 
 *,*:before,*::after {
     box-sizing: border-box;
