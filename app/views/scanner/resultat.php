@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<p>Erreur : " . htmlspecialchars($e->getMessage()) . "</p>";
         }
     } else {
-        echo "<p>Aucune donnée reçue.</p>";
+        echo "<p>Aucune donnée reçue .</p>";
     }
 }
 
