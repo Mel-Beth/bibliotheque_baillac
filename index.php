@@ -45,15 +45,25 @@ if ($route[0] == "" || $route[0] == "accueil") {
         header('Location: accueil');
         exit;
     }
-} elseif ($route[0] == "scanner") {
-    // Route pour afficher la page scanner
+}elseif ($route[0] == 'scanner') {
     require_once "app/models/Scanner.php";
     require_once "app/controllers/ScannerController.php";
-
-    // $scannerModel = new Scanner($pdo); // Instancier le modèle du scanner
+    $scannerModel = new Scanner($pdo); // Instancier le modèle du scanner
     // $scannerController = new ScannerController($scannerModel); // Instancier le contrôleur du scanner
 
-    // $scannerController->afficherScanner(); // Afficher la page scanner
+        if (isset($route[1]) || $route == '') {
+            switch ($route[1]) {
+                
+                case 'resultat':
+                    include 'app/views/scanner/resultat.php';
+                    break;
+                default:
+                    include 'views/404.php';
+                    break;
+            }
+        }else {
+            include 'app/views/scanner/scan.php';
+        }
 
 } elseif ($route[0] == "livres") {
     // Route pour gérer les livres (afficher, ajouter, créer, etc.)

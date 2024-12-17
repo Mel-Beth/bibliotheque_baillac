@@ -26,9 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($qrCode !== null) {
         // Instanciation de la classe Scanner
         try {
-            $scanner = new Scanner($pdo); // Assurez-vous que $pdo est défini
+            $scanner = new Scanner($pdo); 
 
-            // Vérification si le livre existe et récupération de ses détails
             $livre = $scanner->checkLivre($qrCode);
 
             echo "<div id='result-container'>";

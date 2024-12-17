@@ -1,6 +1,5 @@
 <?php
 
-    // Configuration de la base de données
     $host = 'localhost'; // Adresse du serveur
     $port = 5432; // Port du serveur
     $dbname = 'bibliotheque_baillac'; // Nom de la base de données
@@ -20,5 +19,3 @@ try {
 
     die("Erreur de connexion ou de requête : " . $e->getMessage());
 }
-
-?>

@@ -25,5 +25,5 @@
             </tr>
         </table>
         <button class="renew">Renouveler emprunt</button>
-        <button class="return">Retour Bibliothèque</button>
+        <button class="return"><a href="./app/views/scanner/retour_bibliotheque.php">Retour Bibliothèque</a> </button>
     </div>
