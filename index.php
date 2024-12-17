@@ -7,43 +7,45 @@ require_once 'config/database.php'; // Connexion à la base de données
 
 // Vérification globale de connexion
 if (!isset($_SESSION['employe_id']) && (!isset($_GET['route']) || $_GET['route'] !== 'connexion')) {
-    header('Location: connexion');
+    header('Location: connexion');  // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
     exit;
 }
-
-// Instancier les contrôleurs nécessaires
-require_once "app/models/Transaction.php";
-require_once "app/controllers/TransactionController.php";
-
-$transactionModel = new Transaction($pdo);
-$transactionController = new TransactionController($transactionModel);
 
 // Récupérer la route
 $route = isset($_GET["route"]) ? explode('/', $_GET["route"]) : [''];
 
 // Routeur avec des conditions
 if ($route[0] == "" || $route[0] == "accueil") {
-    // Redirection en fonction du rôle de l'utilisateur après connexion
+    // Vérifier le rôle de l'utilisateur et afficher la page d'accueil appropriée
     if (isset($_SESSION['role']) && ($_SESSION['role'] === 'responsable' || $_SESSION['role'] === 'responsable_site')) {
-        header('Location: accueil_admin'); // Rediriger vers accueil_admin.php
-        exit;
+        // Si l'utilisateur est responsable ou responsable_site, rediriger vers accueil_admin
+        include 'app/views/accueil_admin.php'; // Page d'accueil des administrateurs
+    } else {
+        // Pour les autres rôles (bibliothécaires), afficher la page d'accueil classique avec les transactions
+        require_once "app/models/Transaction.php";
+        require_once "app/controllers/TransactionController.php";
+
+        $transactionModel = new Transaction($pdo);
+        $transactionController = new TransactionController($transactionModel);
+
+        // Appeler la méthode afficherStatistiques pour afficher les statistiques classiques
+        $transactionController->afficherStatistiques();
     }
-    // Page d'accueil classique
-    $transactionController->afficherStatistiques();
 
 } elseif ($route[0] == "accueil_admin") {
-    // Vérification stricte pour les admins
-    if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'responsable' && $_SESSION['role'] !== 'responsable_site')) {
+    // Vérification stricte pour les admins (responsable ou responsable_site)
+    if (isset($_SESSION['role']) && ($_SESSION['role'] === 'responsable' || $_SESSION['role'] === 'responsable_site')) {
+        include 'app/views/accueil_admin.php'; // Page spécifique aux administrateurs
+    } else {
+        // Si l'utilisateur n'est pas un administrateur, rediriger vers la page d'accueil classique
         header('Location: accueil');
         exit;
     }
-    // Afficher la page d'accueil admin
-    include 'app/views/accueil_admin.php'; // Afficher la vue spécifique aux administrateurs
 
 } elseif ($route[0] == "scanner") {
     // Route pour afficher la page scanner
-    require_once "app/controllers/ScannerController.php";  // Inclure le contrôleur du scanner
-    require_once "app/models/Scanner.php";  // Inclure le modèle du scanner
+    require_once "app/controllers/ScannerController.php";
+    require_once "app/models/Scanner.php";
 
     $scannerModel = new Scanner($pdo); // Instancier le modèle du scanner
     $scannerController = new ScannerController($scannerModel); // Instancier le contrôleur du scanner
@@ -51,8 +53,10 @@ if ($route[0] == "" || $route[0] == "accueil") {
     $scannerController->afficherScanner(); // Afficher la page scanner
 
 } elseif ($route[0] == "livres") {
+    // Route pour gérer les livres (afficher, ajouter, créer, etc.)
     require_once "app/controllers/LivreController.php";
     $livreController = new LivreController();
+
     if (isset($route[1]) && $route[1] == "list") {
         $livreController->listLivres();
     } elseif (isset($route[1]) && $route[1] == "create") {
@@ -60,10 +64,11 @@ if ($route[0] == "" || $route[0] == "accueil") {
     } elseif (isset($route[1]) && $route[1] == "detail") {
         $livreController->detailLivre();
     } else {
-        include "app/views/404.php";
+        include "app/views/404.php"; // Si aucune route spécifique n'est trouvée
     }
 
 } elseif ($route[0] == "connexion") {
+    // Route pour gérer la connexion des employés
     require_once "app/models/Employe.php";
     require_once "app/controllers/EmployeController.php";
 
@@ -72,12 +77,13 @@ if ($route[0] == "" || $route[0] == "accueil") {
     $employeController->loginEmploye();
 
 } elseif ($route[0] == "logout") {
+    // Route pour gérer la déconnexion
     require_once "app/controllers/LogoutController.php";
     $logoutController = new LogoutController();
     $logoutController->logout();
 
 } else {
-    // Page 404
+    // Page 404 pour les routes non définies
     include "app/views/404.php";
 }
 ?>

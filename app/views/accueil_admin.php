@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 
 // Vérification si l'utilisateur est connecté et admin
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== '1') {
