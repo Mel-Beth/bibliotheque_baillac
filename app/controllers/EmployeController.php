@@ -45,7 +45,7 @@ class EmployeController
                         header('Location: accueil_admin');
                     } else {
                         // Sinon, on redirige vers la page classique d'accueil
-                        header('Location: index.php?route=accueil');
+                        header('Location: accueil');
                     }
                     exit;
                 } else {

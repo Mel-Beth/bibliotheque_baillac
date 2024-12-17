@@ -31,12 +31,13 @@
             </div>
             <div class="metric">
                 <h2>Total des livres en transit</h2>
-                <p><?= htmlspecialchars($totalTransactions - ($empruntsEnCours + $retoursEffectues)) ?></p>
+                <p><?= htmlspecialchars($livresEnTransit) ?></p>
             </div>
             <div class="metric">
                 <h2>Total des livres disponibles</h2>
                 <p><?= htmlspecialchars($totalLivres) ?></p>
             </div>
+
         </section>
 
         <!-- Bouton pour voir les détails -->
@@ -45,7 +46,7 @@
         </div>
 
         <div class="scan-button">
-            <a href="index.php?route=scanner">
+            <a href="scanner">
                 <button>Scanner un ouvrage</button>
             </a>
         </div>
