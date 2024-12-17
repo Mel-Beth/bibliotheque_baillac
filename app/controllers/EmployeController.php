@@ -16,44 +16,52 @@ class EmployeController
 
     // connexion des employés
     public function loginEmploye()
-{
-    $error = '';
+    {
+        $error = '';
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $email = trim($_POST['email']);
-        $password = trim($_POST['password']);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = trim($_POST['email']);
+            $password = trim($_POST['password']);
 
-        if (empty($email) || empty($password)) {
-            $error = 'Veuillez remplir tous les champs.';
-        } else {
-            $employe = $this->model->getEmployeByEmail($email);
+            if (empty($email) || empty($password)) {
+                $error = 'Veuillez remplir tous les champs.';
+                error_log($error);
+            } else {
+                error_log("Tentative de connexion pour l'email : $email");
 
-            if ($employe && password_verify($password, $employe['mot_de_passe'])) {
-                // Mise à jour des variables de session
-                $_SESSION['employe_id'] = $employe['id_employe'];
-                $_SESSION['employe_nom'] = $employe['nom'];
-                $_SESSION['employe_prenom'] = $employe['prenom'];
-                $_SESSION['role'] = $employe['role'];
-            
-                // Debug pour vérifier le rôle
-                error_log("Rôle de l'employé: " . $_SESSION['role']); // Débogage
-                var_dump($_SESSION); // Ajout du var_dump pour vérifier les données dans la session
-            
-                if ($_SESSION['role'] === 'responsable' || $_SESSION['role'] === 'responsable_site') {
-                    header('Location: accueil_admin'); // Rediriger vers la page admin
+                $employe = $this->model->getEmployeByEmail($email);
+
+                if ($employe) {
+                    error_log("Employé trouvé : " . json_encode($employe));
+                    if (password_verify($password, $employe['mot_de_passe'])) {
+                        // Mise à jour des variables de session
+                        $_SESSION['employe_id'] = $employe['id_employe'];
+                        $_SESSION['employe_nom'] = $employe['nom'];
+                        $_SESSION['employe_prenom'] = $employe['prenom'];
+                        $_SESSION['role'] = $employe['role'];
+                    
+                        // Debug pour vérifier le rôle
+                        error_log("Rôle de l'employé: " . $_SESSION['role']); // Débogage
+                        var_dump($_SESSION); // Ajout du var_dump pour vérifier les données dans la session
+                    
+                        if ($_SESSION['role'] === 'responsable' || $_SESSION['role'] === 'responsable_site') {
+                            header('Location: accueil_admin'); // Rediriger vers la page admin
+                        } else {
+                            header('Location: accueil'); // Rediriger vers la page d'accueil classique
+                        }
+                        exit;
+                    } else {
+                        $error = 'Mot de passe incorrect.';
+                        error_log($error);
+                    }
                 } else {
-                    header('Location: accueil'); // Rediriger vers la page d'accueil classique
+                    $error = 'Email incorrect ou non trouvé.';
+                    error_log($error);
                 }
-                exit;
-            }
-             else {
-                $error = 'Email ou mot de passe incorrect.';
             }
         }
+        include 'app/views/employes/loginEmploye.php';
     }
-    include 'app/views/employes/loginEmploye.php';
-}
-
 
     // Ajouter un employé
     public function addEmploye($data)
