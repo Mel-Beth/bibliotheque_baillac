@@ -36,9 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo "<h2>Le livre existe :</h2>";
                 var_dump($livre);
                 
-                
-                // echo "<p>État: " . htmlspecialchars($livre['état']) . "</p>";
-                // echo "<p>Statut: " . htmlspecialchars($livre['statut']) . "</p>";
                 $livre_status = '';
                 if ($livre_status === 'disponible') {
                     echo "<p>Le livre est disponible à la bibliothèque.</p>";
