@@ -1,0 +1,42 @@
+.section-scan .container {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.section-scan #reader {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+}
+.section-scan .hidden {
+    display: none;
+}
+.section-scan form {
+    width: 100%;
+    max-width: 350px;
+    margin-top: 20px;
+}
+.section-scan input[type="text"], button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.section-scan button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+.section-scan button:hover {
+    background-color: #0056b3;
+}
+.section-scan #result-container {
+    margin-top: 20px;
+    text-align: center;
+}

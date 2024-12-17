@@ -56,6 +56,35 @@ if ($route[0] == "" || $route[0] == "accueil") {
     $controller = new EmployeController($employeModel);
     $controller->loginEmploye();
 
+} elseif ($route[0] == "employes") {
+    include "app/models/Employe.php";
+    include "app/controllers/EmployeController.php";
+} elseif ($route[0] == "employes") {
+    include "app/models/Employe.php";
+    include "app/controllers/EmployeController.php";
+
+    $employeModel = new Employe($pdo);
+    $controller = new EmployeController($employeModel);
+
+    if (isset($route[1]) && $route[1] == "login") {
+        $controller->loginEmploye();
+    } elseif (isset($route[1]) && $route[1] == "list") {
+        if (isset($_SESSION['employe_id']) && $_SESSION['role'] === '1') {
+            $controller->listEmployes();
+        } else {
+            include "app/views/404.php";
+        }
+    } else {
+        include "app/views/404.php";
+    }
+
+} elseif ($route[0] == "scanner") {
+    include "app/models/Scanner.php";
+    include "app/controllers/ScannerController.php";
+    // $scannerController = new ScannerController();
+    // $scannerController->scanner();
+
+
 } elseif ($route[0] == "logout") {
     include "app/controllers/LogoutController.php";
     $logoutController = new LogoutController();
