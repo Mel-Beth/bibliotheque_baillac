@@ -47,23 +47,23 @@ class TransactionController {
         include 'app/views/HistoriqueTransaction.php'; // Inclure la vue pour afficher l'historique
     }
 
-    // Afficher la liste de toutes les transactions
-    public function afficherListeTransactions() {
-        $transactions = $this->transactionModel->getAllTransactions();
-        include 'app/views/ListTransaction.php'; // Inclure la vue pour afficher la liste des transactions
-    }
-
     // Afficher les statistiques d'emprunts en cours, de livres en transit et de retours
     public function afficherStatistiques() {
         $empruntsEnCours = $this->transactionModel->countEmprunts();
         $retoursEffectues = $this->transactionModel->countRetours();
         $livresEnTransit = $this->transactionModel->countLivresEnTransit();
-        $totalTransactions = $this->transactionModel->countTotalTransactions();
         $totalLivres = $this->transactionModel->countTotalLivres(); // Correction ici
     
-        include 'app/views/accueil.php'; // Inclure la vue d'accueil
+        // Si l'utilisateur est administrateur, on redirige vers la page d'accueil admin
+        if (isset($_SESSION['role']) && ($_SESSION['role'] === 'responsable' || $_SESSION['role'] === 'responsable_site')) {
+            // Page spécifique à l'admin
+            include 'app/views/accueil_admin.php';
+        } else {
+            // Page d'accueil classique
+            include 'app/views/accueil.php';
+        }
     }
-    
+
     // Méthodes supplémentaires pour récupérer des informations (ex. employé, exemplaire) si nécessaire
     private function getEmployeById($idEmploye) {
         // Implémentation pour récupérer un employé par son ID
@@ -75,4 +75,5 @@ class TransactionController {
         return $this->transactionModel->getExemplaireById($idExemplaire);
     }
 }
+
 ?>

@@ -25,23 +25,38 @@ class EmployeController
 
             if (empty($email) || empty($password)) {
                 $error = 'Veuillez remplir tous les champs.';
+                error_log($error);
             } else {
+                error_log("Tentative de connexion pour l'email : $email");
+
                 $employe = $this->model->getEmployeByEmail($email);
 
-                if ($employe && password_verify($password, $employe['mot_de_passe'])) {
-                    $_SESSION['employe_id'] = $employe['id_employe'];
-                    $_SESSION['employe_nom'] = $employe['nom'];
-                    $_SESSION['employe_prenom'] = $employe['prenom'];
-                    $_SESSION['role'] = $employe['role'];
-
-                    if ($employe['role'] === 'responsable' || $employe['role'] === 'responsable_site') {
-                        header('Location: accueil_admin');
+                if ($employe) {
+                    error_log("Employé trouvé : " . json_encode($employe));
+                    if (password_verify($password, $employe['mot_de_passe'])) {
+                        // Mise à jour des variables de session
+                        $_SESSION['employe_id'] = $employe['id_employe'];
+                        $_SESSION['employe_nom'] = $employe['nom'];
+                        $_SESSION['employe_prenom'] = $employe['prenom'];
+                        $_SESSION['role'] = $employe['role'];
+                    
+                        // Debug pour vérifier le rôle
+                        error_log("Rôle de l'employé: " . $_SESSION['role']); // Débogage
+                        var_dump($_SESSION); // Ajout du var_dump pour vérifier les données dans la session
+                    
+                        if ($_SESSION['role'] === 'responsable' || $_SESSION['role'] === 'responsable_site') {
+                            header('Location: accueil_admin'); // Rediriger vers la page admin
+                        } else {
+                            header('Location: accueil'); // Rediriger vers la page d'accueil classique
+                        }
+                        exit;
                     } else {
-                        header('Location: accueil');
+                        $error = 'Mot de passe incorrect.';
+                        error_log($error);
                     }
-                    exit;
                 } else {
-                    $error = 'Email ou mot de passe incorrect.';
+                    $error = 'Email incorrect ou non trouvé.';
+                    error_log($error);
                 }
             }
         }
