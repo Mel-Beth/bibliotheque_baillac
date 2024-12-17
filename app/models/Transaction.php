@@ -1,4 +1,5 @@
 <?php
+// app/models/Transaction.php
 
 class Transaction {
     private $db;

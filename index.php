@@ -37,6 +37,8 @@ if ($route[0] == "" || $route[0] == "accueil") {
 } elseif ($route[0] == "accueil_admin") {
     // Vérification stricte pour les admins (responsable ou responsable_site)
     if (isset($_SESSION['role']) && ($_SESSION['role'] === 'responsable' || $_SESSION['role'] === 'responsable_site')) {
+        require('app/models/Employe.php');
+        require('app/controllers/EmployeController.php');
         include 'app/views/accueil_admin.php'; // Page spécifique aux administrateurs
     } else {
         // Si l'utilisateur n'est pas un administrateur, rediriger vers la page d'accueil classique
