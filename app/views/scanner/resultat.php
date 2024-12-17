@@ -30,20 +30,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Vérification si le livre existe et récupération de ses détails
             $livre = $scanner->checkLivre($qrCode);
-            var_dump($livre);
 
             echo "<div id='result-container'>";
             if ($livre) {
                 echo "<h2>Le livre existe :</h2>";
-                echo "<p>ID Exemplaire: " . htmlspecialchars($livre['id_exemplaire']) . "</p>";
-                echo "<p>ISBN: " . htmlspecialchars($livre['isbn']) . "</p>";
+                var_dump($livre);
+                
+                
                 // echo "<p>État: " . htmlspecialchars($livre['état']) . "</p>";
                 // echo "<p>Statut: " . htmlspecialchars($livre['statut']) . "</p>";
-
-                if ($livre['statut'] === 'disponible') {
+                $livre_status = '';
+                if ($livre_status === 'disponible') {
                     echo "<p>Le livre est disponible à la bibliothèque.</p>";
+                    include './app/views/scanner/disponible.php';
                 } else {
-                    echo "<p>Le livre est actuellement emprunté.</p>";
+                    
+                    include './app/views/scanner/emprunte.php';
                 }
             } else {
                 echo "<p>Aucun livre trouvé avec ce code.</p>";
