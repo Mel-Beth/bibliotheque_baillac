@@ -16,6 +16,9 @@
             <div class="welcome-message">
                 <p>Bienvenue, <?= htmlspecialchars($_SESSION['employe_prenom']) ?> <?= htmlspecialchars($_SESSION['employe_nom']) ?> !</p>
                 <p>Rôle : <?= htmlspecialchars($_SESSION['role']) ?></p>
+                <p>Batiment : <?= htmlspecialchars($_SESSION['batiment']) ?></p>
+                <p>Etage : <?= htmlspecialchars($_SESSION['etage']) ?></p>
+
             </div>
         </header>
 

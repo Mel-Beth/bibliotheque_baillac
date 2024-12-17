@@ -39,10 +39,13 @@ class EmployeController
                         $_SESSION['employe_nom'] = $employe['nom'];
                         $_SESSION['employe_prenom'] = $employe['prenom'];
                         $_SESSION['role'] = $employe['role'];
+                        $_SESSION['batiment'] = $employe['batiment'];
+                        $_SESSION['etage'] = $employe['etage'];
+
                     
                         // Debug pour vérifier le rôle
-                        error_log("Rôle de l'employé: " . $_SESSION['role']); // Débogage
-                        var_dump($_SESSION); // Ajout du var_dump pour vérifier les données dans la session
+                        // error_log("Rôle de l'employé: " . $_SESSION['role']); // Débogage
+                        // var_dump($_SESSION); // Ajout du var_dump pour vérifier les données dans la session
                     
                         if ($_SESSION['role'] === 'responsable' || $_SESSION['role'] === 'responsable_site') {
                             header('Location: accueil_admin'); // Rediriger vers la page admin
