@@ -1,7 +1,5 @@
-<?php 
-include './accueil_admin.php';
+<?php include 'includes/head.html'; 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -15,10 +13,7 @@ include './accueil_admin.php';
 
 <body>
     <h1>Bienvenue Administrateur de la Bibliothèque Baillac</h1>
-    <?php
-    $employes = $pdo->query("SELECT * FROM employes")->fetchAll(PDO::FETCH_ASSOC);
-    
-    ?>
+  
     <!-- ajout employe -->
     <section>
         <h2>Ajouter un employé</h2>
