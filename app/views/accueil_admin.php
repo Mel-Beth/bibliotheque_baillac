@@ -1,3 +1,6 @@
+<?php include 'includes/head.html'; 
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -10,10 +13,7 @@
 
 <body>
     <h1>Bienvenue Administrateur de la Bibliothèque Baillac</h1>
-    <?php
-    $employes = $pdo->query("SELECT * FROM employes")->fetchAll(PDO::FETCH_ASSOC);
-    include './accueil_admin.php';
-    ?>
+  
     <!-- ajout employe -->
     <section>
         <h2>Ajouter un employé</h2>
@@ -28,12 +28,11 @@
             <input type="password" name="mot_de_passe" required>
             <label>Rôle</label>
             <input type="number" name="role" min="1" max="2" required>
-            <label>Section :</label>
-            <input type="text" name="section" required>
+            <label>Batiment</label>
+            <input type="text" name="batiment" required>
             <button type="submit" name="action" value="add">Ajouter</button>
         </form>
     </section>
-
 
     <section>
         <h2>Liste des employés</h2>
@@ -45,7 +44,7 @@
                     <th>Prénom</th>
                     <th>Email</th>
                     <th>Rôle</th>
-                    <th>Section</th>
+                    <th>Batiment</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -58,7 +57,7 @@
                         <td><?= htmlspecialchars($employe['prenom']); ?></td>
                         <td><?= htmlspecialchars($employe['email']); ?></td>
                         <td><?= $employe['role'] === '1' ? 'Administrateur' : 'Employé'; ?></td>
-                        <td><?= htmlspecialchars($employe['section']); ?></td>
+                        <td><?= htmlspecialchars($employe['batiment']); ?></td>
                         <td>
                             <form method="POST" style="display:inline;">
                                 <input type="hidden" name="id_employe" value="<?= $employe['id_employe']; ?>">

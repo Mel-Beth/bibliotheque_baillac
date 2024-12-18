@@ -1,0 +1,807 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 17.2
+-- Dumped by pg_dump version 17.2
+
+-- Started on 2024-12-16 09:39:04
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 4905 (class 1262 OID 20112)
+-- Name: bibliotheque_baillac; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE bibliotheque_baillac WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'French_France.1252';
+
+
+ALTER DATABASE bibliotheque_baillac OWNER TO postgres;
+
+\connect bibliotheque_baillac
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 227 (class 1259 OID 20222)
+-- Name: adherents; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.adherents (
+    id integer NOT NULL,
+    id_adherent bigint,
+    nom character varying(100),
+    prenom character varying(100),
+    date_inscription date,
+    email character varying(100),
+    telephone character varying(20)
+);
+
+
+ALTER TABLE public.adherents OWNER TO postgres;
+
+--
+-- TOC entry 226 (class 1259 OID 20221)
+-- Name: adherents_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.adherents_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.adherents_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4906 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: adherents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.adherents_id_seq OWNED BY public.adherents.id;
+
+
+--
+-- TOC entry 218 (class 1259 OID 20114)
+-- Name: employes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.employes (
+    id_employe integer NOT NULL,
+    nom character varying(50) NOT NULL,
+    prenom character varying(50) NOT NULL,
+    email character varying(100) NOT NULL,
+    telephone character varying(15),
+    role character varying(20) NOT NULL,
+    mot_de_passe character varying(255) NOT NULL,
+    batiment character varying(10) NOT NULL,
+    etage character varying(10) NOT NULL,
+    CONSTRAINT employes_role_check CHECK (((role)::text = ANY ((ARRAY['responsable'::character varying, 'responsable_site'::character varying, 'bibliothecaire'::character varying])::text[])))
+);
+
+
+ALTER TABLE public.employes OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 20113)
+-- Name: employes_id_employe_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.employes_id_employe_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.employes_id_employe_seq OWNER TO postgres;
+
+--
+-- TOC entry 4907 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: employes_id_employe_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.employes_id_employe_seq OWNED BY public.employes.id_employe;
+
+
+--
+-- TOC entry 221 (class 1259 OID 20131)
+-- Name: exemplaires; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.exemplaires (
+    id integer NOT NULL,
+    isbn character(13) NOT NULL,
+    etat text NOT NULL,
+    id_exemplaire character varying(20) NOT NULL
+);
+
+
+ALTER TABLE public.exemplaires OWNER TO postgres;
+
+--
+-- TOC entry 220 (class 1259 OID 20130)
+-- Name: exemplaires_id_exemplaire_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.exemplaires_id_exemplaire_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.exemplaires_id_exemplaire_seq OWNER TO postgres;
+
+--
+-- TOC entry 4908 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: exemplaires_id_exemplaire_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.exemplaires_id_exemplaire_seq OWNED BY public.exemplaires.id;
+
+
+--
+-- TOC entry 225 (class 1259 OID 20163)
+-- Name: historique_transactions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.historique_transactions (
+    id_transaction integer NOT NULL,
+    id_adherent character(13) NOT NULL,
+    id_employe integer NOT NULL,
+    date_emprunt date NOT NULL,
+    date_retour date,
+    commentaire text,
+    isbn character varying(20),
+    id_exemplaire character varying(10) NOT NULL
+);
+
+
+ALTER TABLE public.historique_transactions OWNER TO postgres;
+
+--
+-- TOC entry 224 (class 1259 OID 20162)
+-- Name: historique_transactions_id_transaction_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.historique_transactions_id_transaction_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.historique_transactions_id_transaction_seq OWNER TO postgres;
+
+--
+-- TOC entry 4909 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: historique_transactions_id_transaction_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.historique_transactions_id_transaction_seq OWNED BY public.historique_transactions.id_transaction;
+
+
+--
+-- TOC entry 219 (class 1259 OID 20123)
+-- Name: livres; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.livres (
+    isbn character(13) NOT NULL,
+    titre character varying(255) NOT NULL,
+    auteur character varying(100) NOT NULL,
+    genre character varying(50),
+    editeur character varying(100),
+    annee_publication integer,
+    resume text,
+    nombre_de_pages integer,
+    langue character varying(50)
+);
+
+
+ALTER TABLE public.livres OWNER TO postgres;
+
+--
+-- TOC entry 223 (class 1259 OID 20144)
+-- Name: qrcodes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.qrcodes (
+    id_qrcode integer NOT NULL,
+    id_exemplaire integer NOT NULL,
+    chemin_qrcode character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.qrcodes OWNER TO postgres;
+
+--
+-- TOC entry 222 (class 1259 OID 20143)
+-- Name: qrcodes_id_qrcode_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.qrcodes_id_qrcode_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.qrcodes_id_qrcode_seq OWNER TO postgres;
+
+--
+-- TOC entry 4910 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: qrcodes_id_qrcode_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.qrcodes_id_qrcode_seq OWNED BY public.qrcodes.id_qrcode;
+
+
+--
+-- TOC entry 4723 (class 2604 OID 20225)
+-- Name: adherents id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.adherents ALTER COLUMN id SET DEFAULT nextval('public.adherents_id_seq'::regclass);
+
+
+--
+-- TOC entry 4719 (class 2604 OID 20117)
+-- Name: employes id_employe; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.employes ALTER COLUMN id_employe SET DEFAULT nextval('public.employes_id_employe_seq'::regclass);
+
+
+--
+-- TOC entry 4720 (class 2604 OID 20134)
+-- Name: exemplaires id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.exemplaires ALTER COLUMN id SET DEFAULT nextval('public.exemplaires_id_exemplaire_seq'::regclass);
+
+
+--
+-- TOC entry 4722 (class 2604 OID 20166)
+-- Name: historique_transactions id_transaction; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.historique_transactions ALTER COLUMN id_transaction SET DEFAULT nextval('public.historique_transactions_id_transaction_seq'::regclass);
+
+
+--
+-- TOC entry 4721 (class 2604 OID 20147)
+-- Name: qrcodes id_qrcode; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.qrcodes ALTER COLUMN id_qrcode SET DEFAULT nextval('public.qrcodes_id_qrcode_seq'::regclass);
+
+
+--
+-- TOC entry 4899 (class 0 OID 20222)
+-- Dependencies: 227
+-- Data for Name: adherents; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.adherents (id, id_adherent, nom, prenom, date_inscription, email, telephone) FROM stdin;
+1	4113351944326	Dupont	Michel	2022-05-15	michel.dupont@example.com	01 23 45 67 89
+2	7542945348273	Lemoine	Sophie	2021-11-23	sophie.lemoine@example.com	01 98 76 54 32
+3	1011326088598	Martin	Jean	2020-03-05	jean.martin@example.com	01 22 33 44 55
+4	1546617349344	Lemoine	Paul	2021-08-10	paul.lemoine@example.com	04 78 56 23 18
+5	2744879496850	Durand	Claire	2020-09-18	claire.durand@example.com	04 72 54 76 89
+6	4307375841604	Bernard	Pierre	2022-01-30	pierre.bernard@example.com	05 61 23 45 67
+7	5849987252853	Petit	François	2023-04-12	francois.petit@example.com	04 91 23 45 67
+8	7131036220828	Rousseau	Sébastien	2021-07-25	sebastien.rousseau@example.com	04 78 59 62 71
+9	8113065797135	Garcia	Isabelle	2022-02-17	isabelle.garcia@example.com	04 72 12 34 56
+10	8598090295858	Lemoine	Jacques	2020-11-03	jacques.lemoine@example.com	01 45 67 89 90
+11	7542945348274	Tremblay	Lucie	2021-05-22	lucie.tremblay@example.com	01 23 56 78 91
+12	8872611698415	Moulin	Catherine	2020-02-14	catherine.moulin@example.com	01 47 56 78 92
+13	7131036220829	Besson	Eric	2021-06-30	eric.besson@example.com	04 72 85 19 72
+14	872611698415	Lemoine	Thérèse	2022-03-01	therese.lemoine@example.com	04 78 52 98 74
+\.
+
+
+--
+-- TOC entry 4890 (class 0 OID 20114)
+-- Dependencies: 218
+-- Data for Name: employes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.employes (id_employe, nom, prenom, email, telephone, role, mot_de_passe, batiment, etage) FROM stdin;
+1	Yssier	Paul	paul.yssier@bibliotheque.com	0600000001	bibliothecaire	$2y$10$D.i3cCpQg0TqsTfjwbX37e2vZ2gvLQDQjLHFJZPoQp9q6abD.l9qu	Bat.A	RDC
+2	Davanture	Roman	roman.davanture@bibliotheque.com	0600000002	bibliothecaire	$2y$10$kAddgVVAM8HSz7aq9QBE5ujloC7IpoO2CIzupc2Q/s0D7TQf.niim	Bat.A	1er étage
+3	Gramme	Anna	anna.gramme@bibliotheque.com	0600000003	bibliothecaire	$2y$10$5PEei5rhIR8E/omk3xK1aeeCKACdHOUKF9WG23KgizveRgZkTYdTO	Bat.A	2ème étage
+4	Scolaire	Emmanuel	emmanuel.scolaire@bibliotheque.com	0600000004	bibliothecaire	$2y$10$rt6434/Ajx7k5CdB9voNdeEKwqvSeb8A.gBe5ejSCke25ZbnvIzSS	Bat.A	3ème étage
+5	Page	Mark	mark.page@bibliotheque.com	0600000005	bibliothecaire	$2y$10$T1rORyNCJZHSEh.6P5s4A.kJGBZrZgAk9H5i4pbKHwwJ79WLT9TXy	Bat.B	RDC
+6	Azzine	Magalie	magalie.azzine@bibliotheque.com	0600000006	bibliothecaire	$2y$10$5WtObio2ON0CBhuCtPqch.dHn3oemxeinYS4jHZnmTtOx80wyHiqG	Bat.B	1er étage
+7	Tralle	Théa	thea.tralle@bibliotheque.com	0600000007	bibliothecaire	$2y$10$8rT7yAFUUe/YiBHRmpmWyOAZfbyANB7IbGAfvpJHg/vp9Uwl/KHVu	Bat.B	2ème étage
+8	Sionnaire	Dick	dick.sionnaire@bibliotheque.com	0600000008	bibliothecaire	$2y$10$KnGLyTHiwagnM/Gw5KPqpemLtUjdxE5dYdoetazD14yUZJaUOBURa	Bat.B	3ème étage
+9	Biloteka	Bill	bill.biloteka@bibliotheque.com	0600000009	responsable_site	$2y$10$0tZfUvFTJuVL4JGPQOqx8.3btFV51WFPq3ZrtAxfyrTggells8im.	Bat.A	
+10	Hatteck	Medhi	medhi.hatteck@bibliotheque.com	0600000010	responsable_site	$2y$10$S84XD1m2YbhN8t0YTR4Zku5TSX1muCIl9ZcyvvkdmYMNprpZV4IhS	Bat.B	
+11	Termite	Thierry	thierry.termite@bibliotheque.com	0600000011	responsable	$2y$10$CZIy1gIoyXDULTsWV4p8L.dk5bwxPRFRCtZBgNSk6eaUsgkECNbwe	Baillac	
+\.
+
+
+--
+-- TOC entry 4893 (class 0 OID 20131)
+-- Dependencies: 221
+-- Data for Name: exemplaires; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.exemplaires (id, isbn, etat, id_exemplaire) FROM stdin;
+16	9784641100794	Mauvais état	EX005
+17	9784685016884	État moyen	EX010
+18	9784685016884	Mauvais état	EX007
+19	9783338754166	Bon état	EX010
+20	9783338754166	État moyen	EX009
+21	9785290926643	Bon état	EX006
+22	9785290926643	Mauvais état	EX010
+23	9780122087912	Bon état	EX001
+24	9787942213057	Bon état	EX008
+25	9787942213057	État moyen	EX003
+26	9787942213057	État moyen	EX003
+27	9788688611046	Bon état	EX004
+28	9788688611046	Bon état	EX007
+29	9788688611046	Bon état	EX007
+30	9787172673034	État moyen	EX006
+31	9787172673034	État moyen	EX005
+32	9787172673034	Mauvais état	EX004
+33	9783852504438	État moyen	EX003
+34	9783852504438	Mauvais état	EX008
+35	9783852504438	Mauvais état	EX005
+36	9786478126916	Mauvais état	EX001
+37	9786478126916	Bon état	EX006
+38	9788902781975	Mauvais état	EX002
+39	9784415718972	Mauvais état	EX003
+40	9785941135615	Bon état	EX001
+41	9785941135615	État moyen	EX001
+42	9781752794553	État moyen	EX006
+43	9781752794553	Bon état	EX004
+44	9781508102236	Bon état	EX010
+45	9781508102236	État moyen	EX002
+46	9789599178857	État moyen	EX005
+47	9783450636470	Bon état	EX002
+48	9783450636470	Bon état	EX007
+49	9786765497934	Mauvais état	EX005
+50	9784624830403	Mauvais état	EX004
+51	9784624830403	État moyen	EX003
+52	9780130099730	Bon état	EX003
+53	9780130099730	Bon état	EX003
+54	9789937632218	Mauvais état	EX002
+55	9789937632218	Bon état	EX004
+56	9788870397888	État moyen	EX002
+57	9788870397888	Bon état	EX001
+58	9789735310530	Bon état	EX002
+59	9789735310530	Bon état	EX009
+60	9789735310530	Bon état	EX002
+61	9789111042338	Bon état	EX008
+62	9789111042338	Mauvais état	EX008
+63	9786266012315	Bon état	EX005
+64	9786266012315	Mauvais état	EX001
+65	9786285757398	Mauvais état	EX009
+66	9786285757398	Mauvais état	EX004
+67	9787297529094	État moyen	EX010
+68	9787297529094	État moyen	EX001
+69	9787952951154	Mauvais état	EX007
+80	9787799733579	Mauvais état	EX001
+1	9780857211118	Bon état	EX002
+2	9780869199949	État moyen	EX001
+3	9780869199949	Bon état	EX009
+4	9780869199949	État moyen	EX007
+5	9780852094139	Bon état	EX005
+6	9780851415455	Mauvais état	EX001
+7	9788007346857	Mauvais état	EX005
+9	9788007346857	Mauvais état	EX007
+10	9783309822047	Bon état	EX007
+11	9781693535314	Bon état	EX007
+8	9788007346857	Bon état.	EX001
+12	9781693535314	Mauvais état	EX003
+13	9782347323608	Mauvais état	EX009
+14	9784641100794	Bon état	EX003
+15	9784641100794	Bon état	EX005
+70	9787952951154	Bon état	EX010
+71	9786299765608	Bon état	EX007
+72	9789069231082	Mauvais état	EX009
+73	9785440644106	Mauvais état	EX005
+74	9785440644106	État moyen	EX006
+75	9785440644106	État moyen	EX010
+76	9788004761820	État moyen	EX006
+77	9788004761820	Bon état	EX002
+78	9787804356991	Bon état	EX007
+79	9787804356991	Mauvais état	EX001
+81	9787799733579	État moyen	EX002
+82	9784322941210	Bon état	EX003
+83	9784322941210	Mauvais état	EX002
+84	9787965419801	État moyen	EX001
+85	9787965419801	Mauvais état	EX008
+86	9787965419801	Mauvais état	EX007
+87	9781802159431	Mauvais état	EX001
+88	9781802159431	État moyen	EX006
+89	9781802159431	État moyen	EX007
+\.
+
+
+--
+-- TOC entry 4897 (class 0 OID 20163)
+-- Dependencies: 225
+-- Data for Name: historique_transactions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.historique_transactions (id_transaction, id_adherent, id_employe, date_emprunt, date_retour, commentaire, isbn, id_exemplaire) FROM stdin;
+2	4113351944325	1	2024-12-17	2025-01-07	Pages jaunies, mais le contenu est toujours lisible.	9780857211118	EX002
+3	7542945348272	2	2024-12-15	2024-12-30	État moyen, quelques pages légèrement cornées.	9780869199949	EX001
+4	1011326088597	3	2024-11-21	2024-11-28	Pages jaunies, mais le contenu est toujours lisible.	9780869199949	EX009
+5	1546617349343	4	2024-12-14	2025-01-04	État moyen, quelques pages légèrement cornées.	9780869199949	EX007
+6	2744879496849	5	2024-12-07	2024-12-28	Écriture sur certaines pages, mais cela n'affecte pas la lisibilité.	9780852094139	EX005
+7	4307375841603	6	2024-11-29	2024-12-20	Certaines pages manquantes, livre incomplet.	9780851415455	EX001
+8	5849987252852	7	2024-11-08	2024-11-29	Reliure endommagée, livre fragile.	97888007346857	EX005
+9	7131036220827	8	2024-11-22	2024-12-20	Bon état	97888007346857	EX001
+10	8113065797134	1	2024-12-01	2024-12-09	Dégât d'eau, pages gondolées mais lisibles.	97888007346857	EX007
+11	8598090295857	2	2024-11-22	2024-11-29	Écriture sur certaines pages, mais cela n'affecte pas la lisibilité.	978783309822047	EX007
+12	7542945348272	3	2024-11-27	2024-12-04	Pages jaunies, mais le contenu est toujours lisible.	978178169353314	EX007
+13	8872611698414	4	2024-12-17	2025-01-14	Couverture abîmée avec des éraflures visibles.	978178169353314	EX003
+14	7131036220827	5	2024-12-02	2024-12-09	Dégât d'eau, pages gondolées mais lisibles.	978783238754166	EX009
+15	8113065797134	6	2024-11-21	2024-12-12	Pages jaunies, mais le contenu est toujours lisible.	9784784641100794	EX003
+16	5849987252852	7	2024-11-12	2024-12-03	Écriture sur certaines pages, mais cela n'affecte pas la lisibilité.	9784784641100794	EX005
+17	4307375841603	8	2024-11-07	2024-11-14	Dégât d'eau, pages gondolées mais lisibles.	9784784641100794	EX005
+18	8113065797134	1	2024-12-25	2025-01-22	État moyen, quelques pages légèrement cornées.	9784784685016884	EX010
+19	7542945348272	2	2024-12-25	2025-01-01	Dégât d'eau, pages gondolées mais lisibles.	9784784685016884	EX007
+20	8113065797134	3	2024-12-04	2025-01-01	Écriture sur certaines pages, mais cela n'affecte pas la lisibilité.	9783783338754166	EX010
+21	2744879496849	4	2024-11-08	2024-12-06	Marques de morsures ou griffures, mais reste lisible.	978783338754166	EX009
+22	9417398609694	5	2024-11-07	2024-11-28	Bon état	978785290926643	EX006
+23	4307375841603	6	2024-11-25	2024-12-16	Dégât d'eau, pages gondolées mais lisibles.	978785290926643	EX010
+24	9417398609694	7	2024-12-22	2025-01-06	Écriture sur certaines pages, mais cela n'affecte pas la lisibilité.	978780122087912	EX001
+25	2744879496849	8	2024-11-13	2024-12-11	Pages jaunies, mais le contenu est toujours lisible.	978787942213057	EX008
+26	4272732461810	1	2024-12-05	2024-12-26	État moyen, quelques pages légèrement cornées.	978787942213057	EX003
+27	1070011449366	2	2024-12-25	2025-01-15	Couverture abîmée avec des éraflures visibles.	978787942213057	EX003
+28	8598090295857	3	2024-12-24	2024-12-31	Pages jaunies, mais le contenu est toujours lisible.	978788688611046	EX004
+29	4376421227705	4	2024-11-03	2024-12-02	Écriture sur certaines pages, mais cela n'affecte pas la lisibilité.	978788688611046	EX007
+30	5849987252852	5	2024-11-23	2024-12-14	Bon état	978788688611046	EX007
+31	4376421227705	6	2024-11-01	2024-11-29	État moyen, quelques pages légèrement cornées.	978787172673034	EX006
+32	5522570162519	7	2024-12-03	2024-12-17	Odeur de moisi, probablement dû à un stockage inapproprié.	978787172673034	EX005
+33	4816294688213	8	2024-11-22	2024-11-29	Reliure endommagée, livre fragile.	978787172673034	EX004
+34	8872611698414	1	2024-11-06	2024-12-04	Odeur de moisi, probablement dû à un stockage inapproprié.	978783852504438	EX003
+35	4272732461810	2	2024-11-20	2024-11-27	Couverture abîmée avec des éraflures visibles.	978783852504438	EX008
+36	5849987252852	3	2024-12-26	2025-01-23	Reliure endommagée, livre fragile.	978783852504438	EX005
+37	9907368126651	4	2024-11-19	2024-12-03	Dégât d'eau, pages gondolées mais lisibles.	978786478126916	EX001
+38	7131036220827	5	2024-11-15	2024-12-13	Écriture sur certaines pages, mais cela n'affecte pas la lisibilité.	978786478126916	EX006
+39	5522570162519	6	2024-12-18	2025-01-01	Certaines pages manquantes, livre incomplet.	978788902781975	EX002
+40	7131036220827	7	2024-12-22	2025-01-20	Certaines pages manquantes, livre incomplet.	978784415718972	EX003
+41	8113065797134	8	2024-12-08	2024-12-30	Bon état	978785941135615	EX001
+42	4376421227705	1	2024-11-16	2024-12-14	État moyen, quelques pages légèrement cornées.	978785941135615	EX001
+43	5522570162519	2	2024-12-19	2025-01-16	Marques de morsures ou griffures, mais reste lisible.	978781752794553	EX006
+44	8598090295857	3	2024-11-10	2024-12-02	Bon état	978781752794553	EX004
+45	8598090295857	4	2024-12-05	2024-12-12	Écriture sur certaines pages, mais cela n'affecte pas la lisibilité.	978781508102236	EX010
+46	8380579826781	5	2024-12-06	2025-01-03	État moyen, quelques pages légèrement cornées.	978781508102236	EX002
+47	8113065797134	6	2024-12-27	2025-01-17	État moyen, quelques pages légèrement cornées.	978789599178857	EX005
+48	4816294688213	7	2024-12-20	2024-12-27	Bon état	978783450636470	EX002
+49	7542945348272	8	2024-12-10	2024-12-17	Bon état	978783450636470	EX007
+50	1546617349343	1	2024-11-01	2024-11-22	Dégât d'eau, pages gondolées mais lisibles.	978786765497934	EX005
+51	4376421227705	2	2024-11-09	2024-11-16	Dégât d'eau, pages gondolées mais lisibles.	978784624830403	EX004
+52	8113065797134	3	2024-12-18	2025-01-01	État moyen, quelques pages légèrement cornées.	978784624830403	EX003
+53	8106140474326	4	2024-11-21	2024-11-28	Pages jaunies, mais le contenu est toujours lisible.	978780130099730	EX003
+54	2744879496849	5	2024-11-12	2024-11-19	Pages jaunies, mais le contenu est toujours lisible.	978780130099730	EX003
+55	1546617349343	6	2024-11-06	2024-11-27	Dégât d'eau, pages gondolées mais lisibles.	978789937632218	EX002
+56	9417398609694	7	2024-11-24	2024-12-02	Couverture abîmée avec des éraflures visibles.	978789937632218	EX004
+57	9907368126651	8	2024-11-15	2024-11-22	Couverture abîmée avec des éraflures visibles.	978788870397888	EX002
+58	8380579826781	1	2024-12-17	2024-12-31	Pages jaunies, mais le contenu est toujours lisible.	978788870397888	EX001
+59	8598090295857	2	2024-12-05	2025-01-02	Pages jaunies, mais le contenu est toujours lisible.	978789735310530	EX002
+60	9907368126651	3	2024-11-15	2024-12-06	Pages jaunies, mais le contenu est toujours lisible.	978789735310530	EX009
+61	7542945348272	4	2024-12-10	2025-01-07	Bon état	978789735310530	EX002
+62	4816294688213	5	2024-12-10	2024-12-24	Écriture sur certaines pages, mais cela n'affecte pas la lisibilité.	978789111042338	EX008
+63	9907368126651	6	2024-12-21	2024-12-28	Certaines pages manquantes, livre incomplet.	978789111042338	EX008
+64	8106140474326	7	2024-11-11	2024-11-18	Bon état	978786266012315	EX005
+65	437375841603 	8	2024-11-27	2024-12-04	Dégât d'eau, pages gondolées mais lisibles.	978786266012315	EX001
+66	8872611698414	1	2024-11-29	2024-12-27	Dégât d'eau, pages gondolées mais lisibles.	978786285757398	EX009
+67	4307375841603	2	2024-12-03	2024-12-31	Certaines pages manquantes, livre incomplet.	978786285757398	EX004
+68	8380579826781	3	2024-11-07	2024-12-05	Couverture abîmée avec des éraflures visibles.	978787297529094	EX010
+69	1070011449366	4	2024-11-08	2024-12-06	Marques de morsures ou griffures, mais reste lisible.	978787297529094	EX001
+70	7131036220827	5	2024-12-20	2024-12-27	Reliure endommagée, livre fragile.	978787952951154	EX007
+71	1070011449366	6	2024-12-03	2024-12-31	Écriture sur certaines pages, mais cela n'affecte pas la lisibilité.	978787952951154	EX010
+72	8598090295857	7	2024-12-27	2025-01-10	Écriture sur certaines pages, mais cela n'affecte pas la lisibilité.	978786299765608	EX007
+73	8106140474326	8	2024-11-29	2024-12-27	Dégât d'eau, pages gondolées mais lisibles.	978789069231082	EX009
+74	4816294688213	1	2024-12-31	2025-01-21	Certaines pages manquantes, livre incomplet.	978785440644106	EX005
+75	4307375841603	2	2024-11-05	2024-11-26	Couverture abîmée avec des éraflures visibles.	978785440644106	EX006
+76	4113351944325	3	2024-11-28	2024-12-19	Marques de morsures ou griffures, mais reste lisible.	978785440644106	EX010
+77	5849987252852	4	2024-11-25	2024-12-09	Couverture abîmée avec des éraflures visibles.	978788004761820	EX006
+78	5849987252852	5	2024-11-26	2024-12-24	Pages jaunies, mais le contenu est toujours lisible.	978788004761820	EX002
+79	2744879496849	6	2024-11-11	2024-12-02	Pages jaunies, mais le contenu est toujours lisible.	978787804356991	EX007
+80	4272732461810	7	2024-12-12	2025-01-09	Dégât d'eau, pages gondolées mais lisibles.	978787804356991	EX001
+81	9907368126651	8	2024-12-01	2024-12-16	Certaines pages manquantes, livre incomplet.	978787799733579	EX001
+82	8113065797134	1	2024-11-13	2024-11-27	Écriture sur certaines pages, mais cela n'affecte pas la lisibilité.	978787799733579	EX002
+83	4816294688213	2	2024-11-09	2024-12-07	Bon état	978784322941210	EX003
+84	4376421227705	3	2024-12-14	2024-12-21	Dégât d'eau, pages gondolées mais lisibles.	978784322941210	EX002
+85	1070011449366	4	2024-11-18	2024-12-09	Marques de morsures ou griffures, mais reste lisible.	978787965419801	EX001
+86	1011326088597	5	2025-01-01	2025-01-22	Reliure endommagée, livre fragile.	978787965419801	EX008
+87	1070011449366	6	2024-12-23	2024-12-30	Dégât d'eau, pages gondolées mais lisibles.	978787965419801	EX007
+88	5849987252852	7	2024-12-09	2024-12-23	Reliure endommagée, livre fragile.	978781802159431	EX001
+89	8106140474326	8	2024-12-22	2025-01-13	Couverture abîmée avec des éraflures visibles.	978781802159431	EX006
+90	9417398609694	1	2024-11-08	2024-11-22	État moyen, quelques pages légèrement cornées.	978781802159431	EX007
+\.
+
+
+--
+-- TOC entry 4891 (class 0 OID 20123)
+-- Dependencies: 219
+-- Data for Name: livres; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.livres (isbn, titre, auteur, genre, editeur, annee_publication, resume, nombre_de_pages, langue) FROM stdin;
+9780857211118	Les Mystères de l'Univers	Jean Dupont	Science	Éditions Cosmos	2013	Une exploration fascinante des mystères de l'univers	572	Espagnol
+9788691996949	Voyage au Coeur de la Biologie	Marie Curie	Science	Éditions Nature	2003	Un ouvrage qui plonge dans les merveilles de la biologie	574	Anglais
+9785820941399	Les Couleurs de l'Art	Paul Martin	Art	Éditions Création	2003	Une analyse des différentes techniques artistiques et de leur impact sur la perception des couleurs	250	Espagnol
+9785141545511	Introduction à la Philosophie	Sophie Leclerc	Philosophie	Éditions Savoir	2013	Un guide accessible aux concepts fondamentaux de la philosophie	534	Anglais
+9788007346857	Les Grandes Théories de la Physique	Albert Einstein	Science	Éditions Scientifiques	2001	Une présentation des théories qui ont révolutionné notre compréhension de la physique moderne	322	Anglais
+9783309822047	Histoires de la Littérature Française	Émile Zola	Littérature	Éditions Classiques	2006	Un recueil d'analyses des œuvres majeures de la littérature française à travers les siècles	478	Anglais
+9781693535314	Les Étoiles et Leur Mystère	Galilée	Astronomie	Éditions Astrales	2016	Une étude approfondie des étoiles	448	Espagnol
+9782347323608	Psychologie et Comportement Humain	Sigmund Freud	Psychologie	Éditions Esprit	2022	Une exploration des mécanismes psychologiques qui régissent le comportement humain	326	Anglais
+9784641100794	Les Civilisations Anciennes	Hélène Martin	Histoire	Éditions Patrimoine	2017	Un voyage à travers les grandes civilisations qui ont façonné notre monde	222	Anglais
+9784685016884	Les Secrets de la Cuisine Méditerranéenne	Giorgio Rossi	Cuisine	Éditions Gourmandes	2005	Un recueil de recettes et d'histoires qui célèbrent la richesse de la cuisine méditerranéenne	224	Espagnol
+9783338754166	Les Fondements de la Mathématique	René Descartes	Mathématiques	Éditions Logique	2023	Une exploration des concepts mathématiques fondamentaux et de leur application dans le monde moderne	419	Anglais
+9785290926643	Les Mythes de la Grèce Antique	Hercule Poirot	Mythologie	Éditions Mythos	2018	Une analyse des mythes grecs et de leur influence sur la culture occidentale	388	Français
+9780122087912	Les Écosystèmes de la Terre	Jacques Cousteau	Environnement	Éditions Nature	2006	Une étude des différents écosystèmes de la planète et de leur importance pour la biodiversité	347	Français
+9787942213057	Les Innovations Technologiques	Steve Jobs	Technologie	Éditions Futur	2012	Un aperçu des innovations qui ont transformé notre quotidien et façonné le monde moderne	549	Français
+9788688611046	Les Grands Peintres de l'Histoire	Claude Monet	Art	Éditions Artistiques	2011	Une exploration des vies et des œuvres des plus grands peintres de l'histoire	443	Français
+9787172673034	Les Bases de la Nutrition	Pierre Dukan	Santé	Éditions Bien-être	2016	Un guide sur les principes fondamentaux de la nutrition et leur impact sur la santé	497	Français
+9783852504438	Les Philosophes du XXe Siècle	Simone de Beauvoir	Philosophie	Éditions Savoir	2007	Une étude des idées et des contributions des philosophes du XXe siècle	428	Espagnol
+9786478126916	Les Merveilles de la Nature	David Attenborough	Nature	Éditions Écologiques	2017	Un voyage à travers les merveilles naturelles de notre planète	317	Anglais
+9788890281975	Les Grandes Découvertes	Christophe Colomb	Histoire	Éditions Explorateurs	2010	Un récit des grandes découvertes qui ont changé notre compréhension du monde	144	Espagnol
+9784415718972	Les Techniques de la Photographie	Ansel Adams	Photographie	Éditions Visuelles	2021	Un guide sur les techniques de photographie et l'art de capturer des images	457	Français
+9785941135615	Les Contes de la Tradition	Charles Perrault	Littérature	Éditions Classiques	2016	Une collection de contes traditionnels qui ont marqué l'imaginaire collectif	171	Anglais
+9781752794553	Les Bases de la Programmation	Ada Lovelace	Informatique	Éditions Tech	2017	Un guide d'introduction à la programmation et aux concepts fondamentaux de l'informatique.	433	Français
+9781508102236	Les Énigmes de l'Histoire	Dan Brown	Histoire	Éditions Mystères	2013	Une exploration des énigmes historiques qui continuent de fasciner les chercheurs et le grand public.	174	Espagnol
+9789599178857	Les Secrets de la Médecine	Hippocrate	Médecine	Éditions Santé	2024	Un aperçu des découvertes médicales qui ont façonné la pratique de la médecine à travers les âges.	535	Espagnol
+9783450636470	Les Récits de la Mer	Herman Melville	Littérature	Éditions Nautiques	2017	Une collection de récits maritimes qui célèbrent l'aventure et la beauté des océans.	241	Français
+9786617624206	Les Fondements de la Physique Quantique	Niels Bohr	Science	Éditions Scientifiques	2006	Une introduction aux concepts de la physique quantique et leur impact sur notre compréhension de l'univers.	586	Espagnol
+9787624623764	Les Cultures du Monde	Margaret Mead	Anthropologie	Éditions Culture	2003	Une étude des différentes cultures à travers le monde et de leur impact sur la société moderne.	303	Espagnol
+9781412257116	Les Étoiles et Leur Influence	Carl Sagan	Astronomie	Éditions Cosmos	2012	Une exploration de l'impact des étoiles sur notre compréhension de l'univers et de notre place dans celui-ci.	596	Anglais
+9780898740310	Les Grands Romanciers Français	Gustave Flaubert	Littérature	Éditions Classiques	2004	Une analyse des œuvres des grands romanciers français et de leur contribution à la littérature.	253	Anglais
+9783493482143	Les Bases de l'Économie	Adam Smith	Économie	Éditions Économiques	2010	Un guide sur les principes fondamentaux de l'économie et leur application dans le monde moderne.	336	Français
+9781611348311	Les Merveilles de l'Ingénierie	Isambard Kingdom Brunel	Ingénierie	Éditions Techniques	2004	Une exploration des réalisations d'ingénierie qui ont transformé notre monde.	440	Anglais
+9781789811682	Les Mythes et Légendes du Monde	Joseph Campbell	Mythologie	Éditions Mythos	2000	Une étude des mythes et légendes qui ont façonné les croyances et les cultures à travers le monde.	584	Espagnol
+9781848602783	Les Secrets de la Psychologie	Carl Jung	Psychologie	Éditions Esprit	2002	Une exploration des concepts psychologiques qui influencent notre comportement et nos émotions.	289	Anglais
+9781876632134	Les Grands Explorateurs	Marco Polo	Histoire	Éditions Explorateurs	2023	Un récit des voyages des grands explorateurs qui ont découvert de nouvelles terres et cultures.	575	Anglais
+9781234567890	Les Techniques de la Musique	Ludwig van Beethoven	Musique	Éditions Musicales	2009	Un guide sur les techniques musicales et l'art de la composition.	459	Français
+9789735310530	Les Énigmes de l'Univers	Julien Lefevre	Science	Éditions Univers	2023	Les grandes questions non résolues de l'univers et les défis scientifiques contemporains.	420	Français
+9780562273121	Les Enjeux de l'Environnement	Greta Thunberg	Environnement	Éditions Écologiques	2007	Une analyse des enjeux environnementaux actuels et des solutions possibles pour un avenir durable.	393	Espagnol
+9789876543210	Les Récits de la Guerre	Ernest Hemingway	Histoire	Éditions Conflits	2019	Une collection de récits sur les expériences vécues pendant les guerres et leurs conséquences.	259	Français
+9788923654812	Les Fondements de la Sociologie	Émile Durkheim	Sociologie	Éditions Sociales	2000	Une introduction aux concepts fondamentaux de la sociologie et leur application dans la société moderne.	476	Français
+9789283623123	Les Merveilles de l'Architecture	Frank Lloyd Wright	Architecture	Éditions Architecturales	2016	Une exploration des réalisations architecturales qui ont marqué l'histoire.	456	Anglais
+9788480915390	Les Grands Poètes Français	Charles Baudelaire	Littérature	Éditions Classiques	2021	Une analyse des œuvres des grands poètes français et de leur impact sur la poésie.	345	Espagnol
+9787779876543	Les Bases de la Biologie	Charles Darwin	Biologie	Éditions Nature	2014	Un guide sur les principes fondamentaux de la biologie et leur importance pour la compréhension de la vie.	222	Anglais
+9783219876543	Les Énigmes de la Science	Stephen Hawking	Science	Éditions Scientifiques	2022	Une exploration des questions scientifiques non résolues et des mystères de l'univers.	252	Espagnol
+9786543210987	Les Récits de la Nature	John Muir	Nature	Éditions Écologiques	2011	Une collection de récits sur la beauté et la diversité de la nature.	324	Français
+9789876543211	Les Grands Musiciens de l'Histoire	Wolfgang Amadeus Mozart	Musique	Éditions Musicales	2012	Une exploration des vies et des œuvres des plus grands musiciens de l'histoire.	278	Français
+9781233212345	Les Secrets de la Cuisine Française	Auguste Escoffier	Cuisine	Éditions Gourmandes	2004	Un recueil de recettes et d'histoires qui célèbrent la richesse de la cuisine française.	314	Anglais
+9780869199949	Voyage au Cœur de la Biologie	Marie Curie	Science	Éditions Nature	2003	Un ouvrage qui plonge dans les merveilles de la biologie.	574	Anglais
+9780852094139	Les Couleurs de l'Art	Paul Martin	Art	Éditions Création	2003	Une analyse des différentes techniques artistiques et de leur impact sur la perception des couleurs.	250	Espagnol
+9780851415455	Introduction à la Philosophie	Sophie Leclerc	Philosophie	Éditions Savoir	2013	Un guide accessible aux concepts fondamentaux de la philosophie.	534	Anglais
+9780870211857	Exploration des Cieux	Galilée	Astronomie	Éditions Cosmos	2020	Une étude des découvertes astronomiques de l'époque de Galilée.	312	Français
+978869199949 	Les Mémoires d'un Voyageur	Hercule Poirot	Roman	Éditions Classiques	2018	Récit fictif d'un voyage à travers l'Europe au début du 20e siècle.	245	Français
+9789503816585	Les Secrets de la Psychologie	Sigmund Freud	Psychologie	Éditions Esprit	2019	Une exploration des théories de Freud sur la psychologie humaine.	366	Espagnol
+9789512378298	L'Art de la Guerre	Sun Tzu	Stratégie	Éditions Stratégiques	2021	Les stratégies et philosophies du célèbre traité chinois sur la guerre.	298	Français
+9788902781975	Les Mystères de l'Histoire	Jean-Paul Sartre	Histoire	Éditions Historiques	2017	Une analyse des événements majeurs de l'histoire et de leurs mystères non résolus.	450	Français
+9786765497934	Les Merveilles de l'Histoire	Jean-Pierre Bertrand	Histoire	Éditions Histoire	2019	Une exploration des événements majeurs de l'histoire humaine, de l'Antiquité à nos jours.	350	Français
+9784624830403	Les Secrets de l'Exploration	Sophie Leclerc	Aventure	Éditions Aventure	2021	Les découvertes les plus fascinantes de l'histoire de l'exploration, des océans aux montagnes.	400	Français
+9780130099730	L'Invention du Futur	Marc Dubois	Science	Éditions Futur	2020	Comment les technologies actuelles et futures façonneront le monde de demain.	380	Français
+9789937632218	Les Trésors Cachés	Claire Moreau	Aventure	Éditions Mystère	2021	L'histoire des trésors perdus et des mystères anciens à travers le monde.	320	Français
+9788870397888	Les Grands Mythes	Pierre Lemoine	Mythologie	Éditions Mythos	2022	Une analyse des mythes les plus célèbres de l'Antiquité et leur influence sur la culture moderne.	360	Français
+9789111042338	L'Art des Civilisations	Isabelle Dubois	Art	Éditions Art	2020	Une étude des œuvres d'art majeures des civilisations anciennes et leur influence sur l'art moderne.	290	Français
+9786266012315	Les Explorations Écologiques	Thomas Pierre	Nature	Éditions Écologie	2022	Une étude sur les enjeux écologiques actuels, l'impact de l'homme et les solutions possibles.	330	Français
+9786285757398	Les Voyages dans le Temps	Marc Lefevre	Science-fiction	Éditions Futur	2021	Un roman de science-fiction qui explore les possibilités des voyages temporels et leur impact sur l'histoire.	380	Français
+9787297529094	Les Secrets de la Psyché	Sarah Lemoine	Psychologie	Éditions Esprit	2022	Une exploration des mécanismes cachés derrière le comportement humain et les pensées inconscientes.	300	Français
+9787952951154	Les Mystères de l'Esprit	Éric Dupont	Philosophie	Éditions Philosophie	2020	Les grandes théories sur l'esprit humain et leur influence sur la société et la pensée moderne.	350	Français
+9786299765608	Les Légendes du Passé	Nathalie Charpentier	Mythologie	Éditions Légendes	2020	Les récits les plus fascinants des civilisations anciennes et leurs légendes oubliées.	330	Français
+9789069231082	Les Explorateurs de l'Inconnu	Michel Martin	Aventure	Éditions Découverte	2023	Les plus grands explorateurs de l'histoire et leurs découvertes qui ont changé le monde.	370	Français
+9785440644106	Les Chemins de l'Histoire	Lucille Fontaine	Histoire	Éditions Histoire	2021	Une étude des événements marquants de l'histoire humaine, depuis la préhistoire jusqu'à l'ère moderne.	400	Français
+9788004761820	Les Légendes d'Orient	Nabil Hadj	Mythologie	Éditions Orient	2022	Les mythes et légendes fascinants venus des civilisations orientales.	300	Français
+9787804356991	Les Épopées Célestes	Léonard Gauthier	Science-fiction	Éditions Céleste	2023	Une aventure dans l'espace et les galaxies lointaines à la recherche de nouvelles formes de vie.	350	Français
+9787799733579	Les Enjeux de la Terre	Karim Zaki	Environnement	Éditions Terre	2021	Une réflexion sur les défis écologiques mondiaux et les solutions possibles pour un avenir durable.	380	Français
+9784322941210	Les Secrets de l'Homme	Stéphanie Martel	Psychologie	Éditions Esprit	2020	Une exploration approfondie des mystères du comportement humain et de son influence dans la société.	360	Français
+9787965419801	Les Origines du Savoir	Bernard Lefèvre	Histoire	Éditions Savoir	2022	Les premières découvertes humaines qui ont pavé la voie aux grandes civilisations.	310	Français
+9781802159431	Les Grands Moments de l'Art	Henri Delacroix	Art	Éditions Art	2023	Les chefs-d'œuvre de l'art et leur influence sur la culture moderne et contemporaine.	400	Français
+\.
+
+
+--
+-- TOC entry 4895 (class 0 OID 20144)
+-- Dependencies: 223
+-- Data for Name: qrcodes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.qrcodes (id_qrcode, id_exemplaire, chemin_qrcode) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4911 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: adherents_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.adherents_id_seq', 14, true);
+
+
+--
+-- TOC entry 4912 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: employes_id_employe_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.employes_id_employe_seq', 11, true);
+
+
+--
+-- TOC entry 4913 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: exemplaires_id_exemplaire_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.exemplaires_id_exemplaire_seq', 90, true);
+
+
+--
+-- TOC entry 4914 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: historique_transactions_id_transaction_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.historique_transactions_id_transaction_seq', 90, true);
+
+
+--
+-- TOC entry 4915 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: qrcodes_id_qrcode_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.qrcodes_id_qrcode_seq', 1, false);
+
+
+--
+-- TOC entry 4738 (class 2606 OID 20229)
+-- Name: adherents adherents_id_adherent_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.adherents
+    ADD CONSTRAINT adherents_id_adherent_key UNIQUE (id_adherent);
+
+
+--
+-- TOC entry 4740 (class 2606 OID 20227)
+-- Name: adherents adherents_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.adherents
+    ADD CONSTRAINT adherents_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4726 (class 2606 OID 20122)
+-- Name: employes employes_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.employes
+    ADD CONSTRAINT employes_email_key UNIQUE (email);
+
+
+--
+-- TOC entry 4728 (class 2606 OID 20120)
+-- Name: employes employes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.employes
+    ADD CONSTRAINT employes_pkey PRIMARY KEY (id_employe);
+
+
+--
+-- TOC entry 4732 (class 2606 OID 20137)
+-- Name: exemplaires exemplaires_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.exemplaires
+    ADD CONSTRAINT exemplaires_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4736 (class 2606 OID 20170)
+-- Name: historique_transactions historique_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.historique_transactions
+    ADD CONSTRAINT historique_transactions_pkey PRIMARY KEY (id_transaction);
+
+
+--
+-- TOC entry 4730 (class 2606 OID 20129)
+-- Name: livres livres_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.livres
+    ADD CONSTRAINT livres_pkey PRIMARY KEY (isbn);
+
+
+--
+-- TOC entry 4734 (class 2606 OID 20149)
+-- Name: qrcodes qrcodes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.qrcodes
+    ADD CONSTRAINT qrcodes_pkey PRIMARY KEY (id_qrcode);
+
+
+--
+-- TOC entry 4741 (class 2606 OID 20138)
+-- Name: exemplaires exemplaires_isbn_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.exemplaires
+    ADD CONSTRAINT exemplaires_isbn_fkey FOREIGN KEY (isbn) REFERENCES public.livres(isbn) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4743 (class 2606 OID 20181)
+-- Name: historique_transactions historique_transactions_id_employe_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.historique_transactions
+    ADD CONSTRAINT historique_transactions_id_employe_fkey FOREIGN KEY (id_employe) REFERENCES public.employes(id_employe);
+
+
+--
+-- TOC entry 4742 (class 2606 OID 20150)
+-- Name: qrcodes qrcodes_id_exemplaire_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.qrcodes
+    ADD CONSTRAINT qrcodes_id_exemplaire_fkey FOREIGN KEY (id_exemplaire) REFERENCES public.exemplaires(id);
+
+
+-- Completed on 2024-12-16 09:39:04
+
+--
+-- PostgreSQL database dump complete
+--
+

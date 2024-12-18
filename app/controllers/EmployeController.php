@@ -110,4 +110,9 @@ class EmployeController
     }
 }
 
+
+    $employes = $pdo->query("SELECT * FROM employes")->fetchAll(PDO::FETCH_ASSOC);
+    
+   
+
 ?>
