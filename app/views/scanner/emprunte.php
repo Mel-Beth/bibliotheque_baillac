@@ -1,4 +1,4 @@
-
+<div class="page-emprunte">
     <div class="container">
         <h1>Emprunté</h1>
         <div class="book-photo">Photo de l'ouvrage</div>
@@ -9,21 +9,22 @@
             </tr>
             <tr>
                 <td>N° Exemplaire</td>
-                <td><?=htmlspecialchars($livre['id_exemplaire']) ?></td>
+                <td><?= htmlspecialchars($livre['id_exemplaire']) ?></td>
             </tr>
             <tr>
                 <td>Emprunté le</td>
-                <td><?=htmlspecialchars($livre['date_emprunt']) ?></td>
+                <td><?= htmlspecialchars($livre['date_emprunt']) ?></td>
             </tr>
             <tr>
                 <td>Par</td>
-                <td><?=htmlspecialchars($livre['nom_employe']) ?></td>
+                <td><?= htmlspecialchars($livre['prenom_employe']) ?> <?= htmlspecialchars($livre['nom_employe']) ?></td>
             </tr>
             <tr>
                 <td>État</td>
-                <td><?=htmlspecialchars($livre['etat']) ?></td>
+                <td><?= htmlspecialchars($livre['etat']) ?></td>
             </tr>
         </table>
         <button class="renew">Renouveler emprunt</button>
-        <button class="return"><a href="./app/views/scanner/retour_bibliotheque.php">Retour Bibliothèque</a> </button>
+        <button class="return"><a href="./app/views/scanner/retour_bibliotheque.php">Retour Bibliothèque</a></button>
     </div>
+</div>

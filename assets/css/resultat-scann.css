@@ -32,15 +32,17 @@
 .page-rendu .container table {
     width: 100%;
     margin-bottom: 20px;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 5px; /* Ajustez la valeur pour l'espace désiré */
+
 }
 
 .page-emprunte .container td,
 .page-rendu .container td {
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #ddd; /* Bordure légère */
+    border-radius: 5px; /* Optionnel : arrondir les coins de la cellule */
 }
-
 .page-emprunte .container button,
 .page-rendu .container button {
     width: 100%;
@@ -50,11 +52,17 @@
     font-size: 16px;
     cursor: pointer;
     margin-bottom: 10px;
+    transition: background-color 0.3s, transform 0.2s; /* Ajout d'une transition douce */
 }
 
 .page-emprunte .container .renew {
     background-color: #4CAF50;
     color: white;
+}
+
+.page-emprunte .container .renew:hover {
+    background-color: #45a049; /* Couleur de fond au survol */
+    transform: scale(1.05); /* Légère augmentation de la taille au survol */
 }
 
 .page-emprunte .container .return,
@@ -63,7 +71,18 @@
     color: white;
 }
 
+.page-emprunte .container .return:hover,
+.page-rendu .container .borrow:hover {
+    background-color: #d32f2f; /* Couleur de fond au survol pour le bouton de retour */
+    transform: scale(1.05); /* Légère augmentation de la taille au survol */
+}
+
 .page-rendu .container .borrow {
     background-color: #2196F3;
     color: white;
+}
+
+.page-rendu .container .borrow:hover {
+    background-color: #1976D2; /* Couleur de fond au survol pour le bouton d'emprunt */
+    transform: scale(1.05); /* Légère augmentation de la taille au survol */
 }
