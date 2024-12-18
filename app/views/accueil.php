@@ -34,7 +34,7 @@
                 <a href="details" class="btn">Détails</a>
             </div>
             <div class="metric">
-                <h2>Total des livres en retard</h2>
+                <h2>Total des retards</h2>
                 <p><?= htmlspecialchars($livresEnRetard) ?></p>
                 <a href="details" class="btn">Détails</a>
             </div>
