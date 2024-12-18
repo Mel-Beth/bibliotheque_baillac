@@ -18,3 +18,29 @@ h1{
 img {
     border-radius: 5px;
 }
+
+a{
+    text-decoration: none;
+    color: aliceblue;
+}
+
+
+/* le button retour  */
+.fixed-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.fixed-button button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.fixed-button button:hover {
+    background-color: #0056b3;
+}

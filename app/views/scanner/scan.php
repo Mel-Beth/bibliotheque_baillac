@@ -4,6 +4,9 @@
 </head>
 
 <body>
+<div class="fixed-button">
+    <button ><a href="accueil">< Retour</a></button>
+</div>
     <div class="section-scan">
         <div class="container">
             <h1>Scanner QR Code</h1>

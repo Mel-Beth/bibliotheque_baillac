@@ -32,6 +32,7 @@
             }
             ?>
         </table>
-        <button class="borrow">Emprunter</button>
+        <button class="borrow"><a href="./scanner/emprunter?qr_code=<?=$qrCode?>">Emprunter</a></button>
     </div>
 </div>
+

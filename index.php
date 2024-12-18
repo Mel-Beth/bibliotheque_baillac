@@ -46,8 +46,8 @@ if ($route[0] == "" || $route[0] == "accueil") {
         exit;
     }
 }elseif ($route[0] == 'scanner') {
-    require_once "app/models/Scanner.php";
-    require_once "app/controllers/ScannerController.php";
+    require "app/models/Scanner.php";
+    require "app/controllers/ScannerController.php";
     $scannerModel = new Scanner($pdo); // Instancier le modèle du scanner
     // $scannerController = new ScannerController($scannerModel); // Instancier le contrôleur du scanner
 
@@ -56,6 +56,9 @@ if ($route[0] == "" || $route[0] == "accueil") {
                 
                 case 'resultat':
                     include 'app/views/scanner/resultat.php';
+                    break;
+                case 'emprunter':
+                    include 'app/views/scanner/emprunter.php';
                     break;
                 default:
                     include 'views/404.php';

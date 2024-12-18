@@ -17,7 +17,8 @@
             </tr>
             <tr>
                 <td>Par</td>
-                <td><?= htmlspecialchars($livre['prenom_employe']) ?> <?= htmlspecialchars($livre['nom_employe']) ?></td>
+                <td><?= htmlspecialchars($livre['prenom_employe']) ?> <?= htmlspecialchars($livre['nom_employe']) ?>
+                </td>
             </tr>
             <tr>
                 <td>État</td>
@@ -25,6 +26,20 @@
             </tr>
         </table>
         <button class="renew">Renouveler emprunt</button>
-        <button class="return"><a href="./app/views/scanner/retour_bibliotheque.php">Retour Bibliothèque</a></button>
+
+
+        <!-- retour button  -->
+        <form method='post' action='scanner/resultat'> 
+            <input type='hidden' name='exemplaire-id' value='<?= htmlspecialchars($livre['id_exemplaire']) ?>'> 
+            <input type='hidden' name='action' value='retour'>
+            <button type='submit' class="return">Retour Bibliothèque</button> 
+            </form>
     </div>
 </div>
+
+
+<?php
+
+ 
+
+    
