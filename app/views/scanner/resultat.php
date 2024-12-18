@@ -9,10 +9,8 @@
 <div class="fixed-button">
     <button ><a href="scanner">< Retour</a></button>
 </div>
-
-
 <?php
-
+$ajoutDateRetour = date('Y-m-d', strtotime('+14 days'));
 $scannerModel = new Scanner($pdo);
  $scannerController = new ScannerController($scannerModel); 
  
@@ -52,9 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (Exception $e) {
             echo "<p>Erreur : " . htmlspecialchars($e->getMessage()) . "</p>";
         }
-    } else {
-        echo "<p>Aucune donnée reçue.</p>";
-    }
+    } 
 }
 ?>
 

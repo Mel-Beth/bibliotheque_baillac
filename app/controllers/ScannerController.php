@@ -43,7 +43,8 @@ class ScannerController {
         }
     }
     public function renouvelerEmprunt($exemplaireId) {
-        $result = $this->scannerModel->renouvelerEmprunt($exemplaireId);
+        $ajoutDateRetour = date('Y-m-d', strtotime('+14 days'));
+        $result = $this->scannerModel->renouvelerEmprunt($exemplaireId, $ajoutDateRetour);
         if ($result) {
             return "L'emprunt a été renouvelé avec succès pour 14 jours supplémentaires.";
         } else {

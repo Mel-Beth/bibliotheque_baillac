@@ -17,7 +17,7 @@
             </tr>
             <tr>
                 <td>Date de Retour</td>
-                <td><?= htmlspecialchars($livre['date_retour']) ?></td>
+                <td><?= htmlspecialchars($livre['date_retour'] ?? 'null') ?></td>
             </tr>
             <tr>
                 <td>Par</td>
