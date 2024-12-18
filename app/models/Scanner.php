@@ -34,4 +34,51 @@ class Scanner {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    
+    public function checkAdherent($adherentId) {
+        $query = "SELECT COUNT(*) FROM adherents WHERE id_adherent = :adherent_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':adherent_id', $adherentId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0;
+    }
+
+    public function updateOrAddTransaction($exemplaireId, $adherentId, $dateRetour) {
+        // Vérifier si le livre est déjà emprunté
+        $query = "SELECT id_transaction FROM historique_transactions WHERE id_exemplaire = :exemplaire_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':exemplaire_id', $exemplaireId, PDO::PARAM_INT);
+        $stmt->execute();
+        $idTransaction = $stmt->fetchColumn();
+
+        if ($idTransaction) {
+            // Mettre à jour l'emprunt avec le nouvel adhérent
+            $query = "UPDATE historique_transactions
+                      SET id_adherent = :adherent_id, date_retour = :date_retour 
+                      WHERE id_exemplaire = :exemplaire_id";
+        } else {
+            // Ajouter une nouvelle entrée dans l'historique des transactions
+            $query = "INSERT INTO historique_transactions 
+                      (id_exemplaire, id_adherent, date_emprunt, date_retour)
+                      VALUES (:exemplaire_id, :adherent_id, NOW(), :date_retour)";
+        }
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':exemplaire_id', $exemplaireId, PDO::PARAM_INT);
+        $stmt->bindParam(':adherent_id', $adherentId, PDO::PARAM_INT);
+        $stmt->bindParam(':date_retour', $dateRetour, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
+    public function retournerLivre($exemplaireId) {
+        $query = "UPDATE historique_transactions 
+                  SET date_retour = NOW()
+                  WHERE id_exemplaire = :exemplaire_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':exemplaire_id', $exemplaireId, PDO::PARAM_INT);
+        $stmt->execute();
+    
+        return $stmt->rowCount();
+    }
 }

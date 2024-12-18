@@ -6,12 +6,16 @@
 </head>
 
 <body>
+<div class="fixed-button">
+    <button ><a href="scanner">< Retour</a></button>
+</div>
+
 
 <?php
 
-
-
-// Exemple d'utilisation
+$scannerModel = new Scanner($pdo);
+ $scannerController = new ScannerController($scannerModel); 
+ 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupération du QR Code
     $qrCode = null;
@@ -20,11 +24,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $qrCode = $_POST['qr-result'];
     } elseif (isset($_POST['manual-result']) && !empty($_POST['manual-result'])) {
         $qrCode = $_POST['manual-result'];
+    }elseif (isset($_POST['action']) && $_POST['action'] == 'retour'){          
+        $exemplaireId = $_POST['exemplaire-id'];
+        $message = $scannerController->retournerLivre($exemplaireId);
+        echo "<p>" . $message . "</p>"; 
     }
 
     // Vérification si le QR Code a été défini
     if ($qrCode !== null) {
-        // Instanciation de la classe Scanner
         try {
             $scanner = new Scanner($pdo); 
 
@@ -32,32 +39,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             echo "<div id='result-container'>";
             if ($livre) {
-                
                 if ($livre['id_transaction'] && $livre['date_retour'] > date('Y-m-d')) {
-                     
-                    
                     include './app/views/scanner/emprunte.php';
-                    
                 } else {
-                    
                     include './app/views/scanner/disponible.php';
                 }
             } else {
-                echo "<p>Aucun livre trouvé avec ce code : </p>";
-                echo $qrCode;
+                echo "<p>Aucun livre trouvé avec ce code : </p>" . htmlspecialchars($qrCode);
             }
             echo "</div>";
         } catch (Exception $e) {
             echo "<p>Erreur : " . htmlspecialchars($e->getMessage()) . "</p>";
         }
     } else {
-        echo "<p>Aucune donnée reçue .</p>";
+        echo "<p>Aucune donnée reçue.</p>";
     }
 }
-
 ?>
-
-
 
 </body>
 </html>
