@@ -40,7 +40,7 @@
             </div>
             <div class="metric">
                 <h2>Messagerie</h2>
-                <p>Messages non lus: 1</p> <a href="messages" class="btn">Voir tous</a>
+                <p>Messages non lus: </p> <a href="messages" class="btn">Voir tous</a>
             </div>
         </section>
         </section>
