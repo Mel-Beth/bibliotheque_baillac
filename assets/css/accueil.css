@@ -6,24 +6,58 @@ body, html {
     background-color: #f4f4f9;
 }
 
+/* Conteneur principal */
 .container-accueil {
     width: 100%;
-    margin: auto;
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 20px;
+    box-sizing: border-box;
 }
 
+/* En-tête */
 .header-accueil {
     background-color: #009292;
     color: white;
     padding: 20px;
     border-radius: 10px;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
+/* Informations utilisateur alignées à gauche */
 .welcome-message {
-    margin-top: 10px;
+    text-align: left;
 }
 
+.welcome-message p {
+    margin: 5px 0;
+    font-size: 1em;
+}
+
+/* Bouton Déconnexion aligné en haut à droite */
+.logout-btn {
+    display: flex;
+    align-items: center;
+}
+
+.logout-btn a {
+    color: white;
+    font-size: 1.5em;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.logout-btn a:hover {
+    color: #f1f1f1;
+}
+
+.logout-btn i {
+    margin-left: 5px;
+}
+
+/* Section des chiffres clés */
 .key-metrics {
     display: flex;
     flex-wrap: wrap;
@@ -37,6 +71,7 @@ body, html {
     border-radius: 10px;
     padding: 20px;
     margin: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     flex: 1;
     min-width: 200px;
     text-align: center;
@@ -44,18 +79,20 @@ body, html {
 
 .metric h2 {
     margin: 0 0 10px;
+    font-size: 1.3em;
     color: #009292;
 }
 
 .metric p {
     margin: 0 0 10px;
-    color: #333;
+    color: #555;
+    font-size: 1.1em;
+    font-weight: bold;
 }
 
 .btn {
     display: inline-block;
     padding: 10px 20px;
-    margin-top: 10px;
     background-color: #009292;
     color: white;
     text-decoration: none;
@@ -67,18 +104,10 @@ body, html {
     background-color: #007474;
 }
 
-li a {
-    color: white;
-    text-decoration: none;
-}
-
-li a:hover {
-    text-decoration: underline;
-}
-
+/* Bouton pour scanner un ouvrage */
 .scan-button {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .scan-button button {
@@ -94,4 +123,25 @@ li a:hover {
 
 .scan-button button:hover {
     background-color: #007474;
+}
+
+/* Adaptation responsive */
+@media (max-width: 768px) {
+    .key-metrics {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .metric {
+        max-width: 300px;
+    }
+
+    .header-accueil {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .logout-btn {
+        margin-top: 10px;
+    }
 }

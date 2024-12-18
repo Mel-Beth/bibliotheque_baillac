@@ -2,6 +2,7 @@
 @import url(scan.css);
 @import url(resultat-scann.css);
 @import url(accueil.css);
+@import url(emprunts.css);
 
 *,*:before,*::after {
     box-sizing: border-box;
