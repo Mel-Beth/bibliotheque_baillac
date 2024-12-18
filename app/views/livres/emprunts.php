@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <?php include 'includes/head.html'; ?>
     <title>Emprunts en cours</title>
 </head>
+
 <body>
-    <div class="container-accueil">
+    <div class="container-emprunt">
         <!-- En-tête avec informations utilisateur -->
         <header class="header-accueil">
             <div class="welcome-message">
@@ -17,46 +19,45 @@
             <!-- Bouton Déconnexion -->
             <div class="logout-btn">
                 <a href="logout" title="Déconnexion">
-                    <i class="fas fa-sign-out-alt"></i> <!-- Icône de déconnexion -->
+                    <i class="fas fa-sign-out-alt"></i>
                 </a>
             </div>
         </header>
 
-        <!-- En-têtes -->
-        <section class="section-header">
-            <h1>Emprunts en cours</h1>
-            <h2>Bat.<?= htmlspecialchars($_SESSION['batiment'] ?? '') ?> / <?= htmlspecialchars($_SESSION['etage'] ?? '') ?> - Sci-Fi</h2>
-        </section>
+        <!-- Filtres -->
+        <div class="filters">
+            <a href="emprunts&filtre=emprunts" class="btn <?= isset($_GET['filtre']) && $_GET['filtre'] == 'emprunts' ? 'active' : '' ?>">Emprunts</a>
+            <a href="emprunts&filtre=transit" class="btn <?= isset($_GET['filtre']) && $_GET['filtre'] == 'transit' ? 'active' : '' ?>">En Transit</a>
+            <a href="emprunts" class="btn <?= empty($_GET['filtre']) ? 'active' : '' ?>">Tous</a>
+        </div>
 
         <!-- Liste des emprunts -->
-        <section class="key-metrics">
+        <section class="emprunts-section">
             <?php if (!empty($emprunts)) : ?>
                 <div class="emprunts-liste">
                     <?php foreach ($emprunts as $emprunt) : ?>
-                        <div class="metric emprunt-item">
-                            <!-- Titre du livre -->
+                        <div class="emprunt-item">
                             <h3><?= htmlspecialchars($emprunt['titre']) ?></h3>
                             <p>Emprunté le : <strong><?= htmlspecialchars($emprunt['date_emprunt']) ?></strong></p>
                             <p>Sorti par : <strong><?= htmlspecialchars($emprunt['employe_prenom'] . ' ' . $emprunt['employe_nom']) ?></strong></p>
-                            <!-- Bouton Détails -->
                             <a href="index.php?route=livres/detail&isbn=<?= urlencode($emprunt['isbn']) ?>" class="btn">
                                 Détails >
                             </a>
                         </div>
                     <?php endforeach; ?>
                 </div>
+                <!-- Bouton Retour -->
+                <div class="btn-retour">
+                    <a href="index.php" class="btn">
+                        ← Retour à l'accueil
+                    </a>
+                </div>
+
             <?php else : ?>
-                <!-- Message si aucun emprunt -->
-                <p class="no-emprunts">Aucun emprunt en cours.</p>
+                <p class="no-emprunts">Aucun emprunt trouvé.</p>
             <?php endif; ?>
         </section>
-
-        <!-- Bouton Retour -->
-        <div class="scan-button">
-            <a href="index.php">
-                <button>Retour à l'accueil</button>
-            </a>
-        </div>
     </div>
 </body>
+
 </html>

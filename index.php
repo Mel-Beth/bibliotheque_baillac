@@ -37,6 +37,7 @@ if ($route[0] === '' || $route[0] === 'accueil') {
     require_once 'app/controllers/EmpruntsController.php';
     $empruntsController = new EmpruntsController($pdo);
     $empruntsController->index();
+    
 } elseif ($route[0] === 'scanner') {
     // Gestion du scanner
     require 'app/models/Scanner.php';

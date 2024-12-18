@@ -48,7 +48,7 @@
         </section>
 
         <div class="scan-button">
-            <a href="index.php?action=scanner">
+            <a href="scanner">
                 <button>Scanner un ouvrage</button>
             </a>
         </div>
