@@ -17,7 +17,7 @@ class Employe {
     }
 
     public function getAllEmployes() {
-        $query = "SELECT id_employe, nom, prenom, email, telephone, role FROM employes ORDER BY id_employe";
+        $query = "SELECT id_employe, nom, prenom, email, telephone, batiment, etage role FROM employes ORDER BY id_employe";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetcghAll(PDO::FETCH_ASSOC);

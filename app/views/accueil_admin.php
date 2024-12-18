@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil Administrateur</title>
-    <link rel="stylesheet" href="assets/css/style.css"> 
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
     <h1>Bienvenue Administrateur de la Bibliothèque Baillac</h1>
-
+    <?php
+    $employes = $pdo->query("SELECT * FROM employes")->fetchAll(PDO::FETCH_ASSOC);
+    include './accueil_admin.php';
+    ?>
     <!-- ajout employe -->
     <section>
         <h2>Ajouter un employé</h2>
@@ -29,7 +34,7 @@
         </form>
     </section>
 
-  
+
     <section>
         <h2>Liste des employés</h2>
         <table border="1">
@@ -45,7 +50,8 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($employes as $employe): ?>
+            <tbody>
+                <?php foreach ($employes as $employe) : ?>
                     <tr>
                         <td><?= htmlspecialchars($employe['id_employe']); ?></td>
                         <td><?= htmlspecialchars($employe['nom']); ?></td>
@@ -54,12 +60,10 @@
                         <td><?= $employe['role'] === '1' ? 'Administrateur' : 'Employé'; ?></td>
                         <td><?= htmlspecialchars($employe['section']); ?></td>
                         <td>
-                            <!-- supression -->
                             <form method="POST" style="display:inline;">
                                 <input type="hidden" name="id_employe" value="<?= $employe['id_employe']; ?>">
                                 <button type="submit" name="action" value="delete">Supprimer</button>
                             </form>
-                            <!-- reafectation -->
                             <form method="POST" style="display:inline;">
                                 <input type="hidden" name="id_employe" value="<?= $employe['id_employe']; ?>">
                                 <input type="text" name="new_section" placeholder="Nouvelle section" required>
@@ -68,10 +72,14 @@
                         </td>
                     </tr>
                 <?php endforeach; ?>
+
+            </tbody>
+
             </tbody>
         </table>
     </section>
 
     <p><a href="logout">Se déconnecter</a></p>
 </body>
+
 </html>
