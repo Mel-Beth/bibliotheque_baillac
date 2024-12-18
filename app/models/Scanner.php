@@ -81,5 +81,16 @@ class Scanner {
     
         return $stmt->rowCount();
     }
+    public function renouvelerEmprunt($exemplaireId) {
+        $query = "UPDATE historique_transactions 
+                  SET date_retour = DATE_ADD(date_retour, INTERVAL 14 DAY) 
+                  WHERE id_exemplaire = :exemplaire_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':exemplaire_id', $exemplaireId, PDO::PARAM_INT);
+        $stmt->execute();
+    
+        return $stmt->rowCount();
+    }
+    
      
 }

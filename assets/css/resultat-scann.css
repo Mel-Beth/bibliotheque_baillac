@@ -68,13 +68,13 @@
 
 .page-emprunte .container .return,
 .page-rendu .container .borrow {
-    background-color: #f44336;
+    background-color: #007bff;
     color: white;
 }
 
 .page-emprunte .container .return:hover,
 .page-rendu .container .borrow:hover {
-    background-color: #d32f2f; /* Couleur de fond au survol pour le bouton de retour */
+    background-color: #007bff; /* Couleur de fond au survol pour le bouton de retour */
     transform: scale(1.05); /* Légère augmentation de la taille au survol */
 }
 

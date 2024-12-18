@@ -28,7 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $exemplaireId = $_POST['exemplaire-id'];
         $message = $scannerController->retournerLivre($exemplaireId);
         echo "<p>" . $message . "</p>"; 
-    }
+    }elseif ($_POST['action'] == 'renouveler') { $exemplaireId = $_POST['exemplaire-id']; $message = $scannerController->renouvelerEmprunt($exemplaireId); echo "<p>" . $message . "</p>" 
+    ; }
 
     // Vérification si le QR Code a été défini
     if ($qrCode !== null) {

@@ -15,7 +15,7 @@
             <form id="scan-form" method="post" action="scanner/resultat">
                 <input type="hidden" name="qr-result" id="result">
                 <p>Si le scan ne fonctionne pas, entrez manuellement le contenu du QR code :</p>
-                <input type="text" name="manual-result" placeholder="Entrez le QR code ici">
+                <input type="text" name="manual-result" placeholder="Entrez le QR code ici" required>
                 <button type="submit">Envoyer</button>
             </form>
         </div>

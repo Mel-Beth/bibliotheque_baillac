@@ -42,4 +42,13 @@ class ScannerController {
             return "Une erreur est survenue lors du retour du livre.";
         }
     }
+    public function renouvelerEmprunt($exemplaireId) {
+        $result = $this->scannerModel->renouvelerEmprunt($exemplaireId);
+        if ($result) {
+            return "L'emprunt a été renouvelé avec succès pour 14 jours supplémentaires.";
+        } else {
+            return "Une erreur est survenue lors du renouvellement de l'emprunt.";
+        }
+    }
+    
 }
