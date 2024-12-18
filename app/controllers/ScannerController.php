@@ -42,4 +42,14 @@ class ScannerController {
             return "Une erreur est survenue lors du retour du livre.";
         }
     }
+    public function renouvelerEmprunt($exemplaireId) {
+        $ajoutDateRetour = date('Y-m-d', strtotime('+14 days'));
+        $result = $this->scannerModel->renouvelerEmprunt($exemplaireId, $ajoutDateRetour);
+        if ($result) {
+            return "L'emprunt a été renouvelé avec succès pour 14 jours supplémentaires.";
+        } else {
+            return "Une erreur est survenue lors du renouvellement de l'emprunt.";
+        }
+    }
+    
 }
