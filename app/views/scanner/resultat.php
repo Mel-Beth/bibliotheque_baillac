@@ -33,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<div id='result-container'>";
             if ($livre) {
                 
-                var_dump($livre);
-                if ($livre['id_transaction'] && $livre['date_retour'] > date('y-m-d')) {
+                if ($livre['id_transaction'] && $livre['date_retour'] > date('Y-m-d')) {
+                     
                     
                     include './app/views/scanner/emprunte.php';
                     

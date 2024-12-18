@@ -1,7 +1,7 @@
 <div class="page-emprunte">
     <div class="container">
         <h1>Emprunté</h1>
-        <div class="book-photo">Photo de l'ouvrage</div>
+        <div class="book-photo"><img height="150px" src="assets/images/livre.webp" alt="Photo de l'ouvrage"></div>
         <table>
             <tr>
                 <td>ISBN</td>
