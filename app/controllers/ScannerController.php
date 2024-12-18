@@ -31,7 +31,7 @@ class ScannerController {
                 return "Aucun livre trouvé avec ce code : " . htmlspecialchars($qrCode);
             }
         } else {
-            return "Numéro d'adhérent invalide. Veuillez réessayer avec un numéro d'adhérent valide.";
+            return "Numéro d'adhérent invalide. Veuillez réessayer avec un numéro d'adhérent valide. ";
         }
     }
     public function retournerLivre($exemplaireId) {
