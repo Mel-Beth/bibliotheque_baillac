@@ -32,19 +32,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             echo "<div id='result-container'>";
             if ($livre) {
-                echo "<h2>Le livre existe bravo :</h2>";
-                var_dump($livre);
                 
-                $livre_status = '';
-                if ($livre_status === 'disponible') {
-                    echo "<p>Le livre est disponible à la bibliothèque.</p>";
-                    include './app/views/scanner/disponible.php';
-                } else {
+                if ($livre['id_transaction'] && $livre['date_retour'] > date('Y-m-d')) {
+                     
                     
                     include './app/views/scanner/emprunte.php';
+                    
+                } else {
+                    
+                    include './app/views/scanner/disponible.php';
                 }
             } else {
-                echo "<p>Aucun livre trouvé avec ce code.</p>";
+                echo "<p>Aucun livre trouvé avec ce code : </p>";
+                echo $qrCode;
             }
             echo "</div>";
         } catch (Exception $e) {
