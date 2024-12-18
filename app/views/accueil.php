@@ -8,7 +8,6 @@
 </head>
 
 <body>
-    <li><a href="logout">Déconnexion</a></li>
     <div class="container-accueil">
         <!-- Section des informations globales -->
         <header class="header-accueil">
@@ -16,6 +15,9 @@
             <div class="welcome-message">
                 <p>Bienvenue, <?= htmlspecialchars($_SESSION['employe_prenom']) ?> <?= htmlspecialchars($_SESSION['employe_nom']) ?> !</p>
                 <p>Rôle : <?= htmlspecialchars($_SESSION['role']) ?></p>
+                <p>Bâtiment : <?= htmlspecialchars($_SESSION['batiment']) ?></p>
+                <p>Étage : <?= htmlspecialchars($_SESSION['etage']) ?></p>
+                <li><a href="logout">Déconnexion</a></li>
             </div>
         </header>
 
@@ -24,27 +26,26 @@
             <div class="metric">
                 <h2>Total des emprunts</h2>
                 <p><?= htmlspecialchars($empruntsEnCours) ?></p>
+                <a href="details" class="btn">Détails</a>
             </div>
             <div class="metric">
                 <h2>Total des retours</h2>
                 <p><?= htmlspecialchars($retoursEffectues) ?></p>
+                <a href="details" class="btn">Détails</a>
             </div>
             <div class="metric">
-                <h2>Total des livres en transit</h2>
-                <p><?= htmlspecialchars($livresEnTransit) ?></p>
+                <h2>Total des retards</h2>
+                <p><?= htmlspecialchars($livresEnRetard) ?></p>
+                <a href="details" class="btn">Détails</a>
             </div>
             <div class="metric">
-                <h2>Total des livres disponibles</h2>
-                <p><?= htmlspecialchars($totalLivres) ?></p>
+                <h2>Messagerie</h2>
+                <p>Messages non lus: 1</p> <a href="messages" class="btn">Voir tous</a>
             </div>
-
+        </section>
         </section>
 
-        <!-- Bouton pour voir les détails -->
-        <div class="details-button">
-            <a href="details" class="btn">Voir les détails par bâtiment et étage</a>
-        </div>
-
+        <!-- Bouton pour scanner un ouvrage -->
         <div class="scan-button">
             <a href="scanner">
                 <button>Scanner un ouvrage</button>

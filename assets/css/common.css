@@ -1,6 +1,7 @@
 @import url(login.css);
 @import url(scan.css);
 @import url(resultat-scann.css);
+@import url(accueil.css);
 
 *,*:before,*::after {
     box-sizing: border-box;
@@ -13,4 +14,7 @@ h1{
     font-family: 'Merriweather', sans-serif;
     text-align: center;
     color: black;
+}
+img {
+    border-radius: 5px;
 }

@@ -51,8 +51,8 @@ class TransactionController {
     public function afficherStatistiques() {
         $empruntsEnCours = $this->transactionModel->countEmprunts();
         $retoursEffectues = $this->transactionModel->countRetours();
-        $livresEnTransit = $this->transactionModel->countLivresEnTransit();
-        $totalLivres = $this->transactionModel->countTotalLivres(); // Correction ici
+        $livresEnRetard = $this->transactionModel->countLivresEnRetard();
+        $totalLivres = $this->transactionModel->countTotalLivres();
     
         // Si l'utilisateur est administrateur, on redirige vers la page d'accueil admin
         if (isset($_SESSION['role']) && ($_SESSION['role'] === 'responsable' || $_SESSION['role'] === 'responsable_site')) {
