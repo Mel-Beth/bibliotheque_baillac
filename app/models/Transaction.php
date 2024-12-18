@@ -36,6 +36,18 @@ class Transaction {
         return $result['total'] ?? 0; // Retourne 0 si aucun résultat
     }
 
+    public function countLivresEnRetard() {
+        $query = "SELECT COUNT(*) AS total 
+                  FROM public.historique_transactions 
+                  WHERE date_retour < NOW() AND date_retour IS NOT NULL";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        return $result['total'] ?? 0;
+    }
+    
+
     // Compter le total des transactions
     public function countTotalTransactions() {
         $query = "SELECT COUNT(*) AS total FROM public.historique_transactions";
