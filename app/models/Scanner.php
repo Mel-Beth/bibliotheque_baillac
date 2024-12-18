@@ -81,4 +81,5 @@ class Scanner {
     
         return $stmt->rowCount();
     }
+     
 }
