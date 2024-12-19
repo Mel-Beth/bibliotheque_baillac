@@ -1,14 +1,17 @@
 <?php
+
 require_once 'app/models/EmpruntsModel.php';
 
-class RetardsController
-{
-    public function index()
-    {
-        $db = new PDO('mysql:host=localhost;dbname=bibliotheque', 'root', '');
-        $model = new EmpruntModel($db);
-        $retards = $model->getRetards();
-        include 'views/retards.php';
+class RetardsController {
+    private $empruntsModel;
+
+    public function __construct($pdo) {
+        $this->empruntsModel = new EmpruntsModel($pdo);
+    }
+
+    public function index() {
+        // Récupération des retards
+        $retards = $this->empruntsModel->getRetards();
+        include 'app/views/livres/retards.php';
     }
 }
-?>

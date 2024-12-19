@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<?php include 'includes/head.html'; ?>
+
 <title>Emprunts en cours</title>
     <link rel="stylesheet" href="assets/css/emprunts.css">
 </head>
@@ -23,6 +25,13 @@
                 </a>
             </div>
         </header>
+
+        <!-- Bouton Retour -->
+        <div class="scan-button">
+            <a href="accueil">
+                <button class="btn">Retour à l'accueil</button>
+            </a>
+        </div>
 
         <!-- Filtres -->
         <div class="filters">
@@ -51,12 +60,7 @@
             <?php endif; ?>
         </section>
 
-        <!-- Bouton Retour -->
-        <div class="scan-button">
-            <a href="accueil">
-                <button class="btn">Retour à l'accueil</button>
-            </a>
-        </div>
+        
     </div>
 </body>
 

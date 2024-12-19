@@ -48,12 +48,12 @@ if ($route[0] === '' || $route[0] === 'accueil') {
     $empruntsController->index();
 } elseif ($route[0] === 'retours') {
     require_once 'app/controllers/RetoursController.php';
-    $retoursController = new RetoursController();
-    include 'app/views/livres/retours.php';
+    $retoursController = new RetoursController($pdo);
+    $retoursController->index(); // Modification : appeler le contrôleur pour afficher les retours
 } elseif ($route[0] === 'retards') {
     require_once 'app/controllers/RetardsController.php';
-    $retardsController = new RetardsController();
-    include 'app/views/livres/retards.php';
+    $retardsController = new RetardsController($pdo);
+    $retardsController->index(); // Modification : appeler le contrôleur pour afficher les retards
 } elseif ($route[0] == 'scanner') {
     require "app/models/Scanner.php";
     require "app/controllers/ScannerController.php";
