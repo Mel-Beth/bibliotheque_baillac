@@ -9,7 +9,7 @@
 <body>
     <div class="container-emprunt">
         <!-- En-tête avec informations utilisateur -->
-        <header class="header-accueil">
+        <header class="header-emprunt">
             <div class="welcome-message">
                 <p>Bienvenue, <?= htmlspecialchars($_SESSION['employe_prenom'] ?? '') ?> <?= htmlspecialchars($_SESSION['employe_nom'] ?? '') ?> !</p>
                 <p>Rôle : <?= htmlspecialchars($_SESSION['role'] ?? '') ?></p>
