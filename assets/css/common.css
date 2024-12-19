@@ -2,8 +2,9 @@
 @import url(scan.css);
 @import url(resultat-scann.css);
 @import url(accueil.css);
+@import url(accueil_admin.css);
 
-*,*:before,*::after {
+/* *,*:before,*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -17,4 +18,4 @@ h1{
 }
 img {
     border-radius: 5px;
-}
+} */
