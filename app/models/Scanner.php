@@ -101,13 +101,44 @@ class Scanner {
     
         return $stmt->rowCount();
     }
-    public function ajoutExemplaire($qrCode, $etat, $isbn) {
-        $query = "INSERT INTO exemplaires (id_exemplaire, etat, isbn) VALUES (:qr_code, :etat, :isbn)";
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':qr_code', $qrCode, PDO::PARAM_STR);
-        $stmt->bindParam(':etat', $etat, PDO::PARAM_STR);
-        $stmt->bindParam(':isbn', $isbn, PDO::PARAM_STR);
-        $stmt->execute();
-        return $stmt->rowCount();
+    public function ajouterLivreEtExemplaire($isbn, $annee_publication, $resume, $nombre_de_pages, $langue, $chemin_img, $qrCode, $etat, $titre, $genre, $auteur, $editeur) {
+        try {
+            // Démarre une transaction
+            $this->db->beginTransaction();
+    
+            // Ajout du livre dans la table livres
+            $queryLivre = "INSERT INTO livres (isbn, annee_publication, resume, nombre_de_pages, langue, chemin_img, titre, genre, auteur, editeur) 
+                           VALUES (:isbn, :annee_publication, :resume, :nombre_de_pages, :langue, :chemin_img, :titre, :genre, :auteur, :editeur)";
+            $stmtLivre = $this->db->prepare($queryLivre);
+            $stmtLivre->bindParam(':isbn', $isbn, PDO::PARAM_STR);
+            $stmtLivre->bindParam(':annee_publication', $annee_publication, PDO::PARAM_INT);
+            $stmtLivre->bindParam(':resume', $resume, PDO::PARAM_STR);
+            $stmtLivre->bindParam(':nombre_de_pages', $nombre_de_pages, PDO::PARAM_INT);
+            $stmtLivre->bindParam(':langue', $langue, PDO::PARAM_STR);
+            $stmtLivre->bindParam(':chemin_img', $chemin_img, PDO::PARAM_STR);
+            $stmtLivre->bindParam(':titre', $titre, PDO::PARAM_STR);
+            $stmtLivre->bindParam(':genre', $genre, PDO::PARAM_STR);
+            $stmtLivre->bindParam(':auteur', $auteur, PDO::PARAM_STR);
+            $stmtLivre->bindParam(':editeur', $editeur, PDO::PARAM_STR);
+            $stmtLivre->execute();
+    
+            // Ajout de l'exemplaire dans la table exemplaires
+            $queryExemplaire = "INSERT INTO exemplaires (id_exemplaire, etat, isbn) VALUES (:qr_code, :etat, :isbn)";
+            $stmtExemplaire = $this->db->prepare($queryExemplaire);
+            $stmtExemplaire->bindParam(':qr_code', $qrCode, PDO::PARAM_STR);
+            $stmtExemplaire->bindParam(':etat', $etat, PDO::PARAM_STR);
+            $stmtExemplaire->bindParam(':isbn', $isbn, PDO::PARAM_STR);
+            
+            $stmtExemplaire->execute();
+    
+            // Valide la transaction
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            // En cas d'erreur, annule la transaction
+            $this->db->rollBack();
+            throw $e;
+        }
     }
+    
 }
