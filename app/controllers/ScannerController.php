@@ -21,7 +21,8 @@ class ScannerController {
         if ($this->checkAdherent($adherentId)) {
             $livre = $this->checkLivre($qrCode);
             if ($livre) {
-                $result = $this->scannerModel->updateOrAddTransaction($livre['id_exemplaire'], $adherentId, $ajoutDateRetour);
+                $id_employe = $_SESSION['employe_id'];
+                $result = $this->scannerModel->updateOrAddTransaction($livre['id_exemplaire'], $adherentId, $ajoutDateRetour, $id_employe);
                 if ($result) {
                     return "Le livre a été emprunté avec succès par l'adhérent numéro : " . htmlspecialchars($adherentId);
                 } else {
@@ -35,7 +36,8 @@ class ScannerController {
         }
     }
     public function retournerLivre($exemplaireId) {
-        $result = $this->scannerModel->retournerLivre($exemplaireId);
+        $id_employe = $_SESSION['employe_id'];
+        $result = $this->scannerModel->retournerLivre($exemplaireId, $id_employe);
         if ($result) {
             return "Le livre a été retourné avec succès.";
         } else {
@@ -43,8 +45,9 @@ class ScannerController {
         }
     }
     public function renouvelerEmprunt($exemplaireId) {
+        $id_employe = $_SESSION['employe_id'];
         $ajoutDateRetour = date('Y-m-d', strtotime('+14 days'));
-        $result = $this->scannerModel->renouvelerEmprunt($exemplaireId, $ajoutDateRetour);
+        $result = $this->scannerModel->renouvelerEmprunt($exemplaireId, $ajoutDateRetour, $id_employe);
         if ($result) {
             return "L'emprunt a été renouvelé avec succès pour 14 jours supplémentaires.";
         } else {
