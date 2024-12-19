@@ -54,16 +54,25 @@ if ($route[0] === '' || $route[0] === 'accueil') {
     require_once 'app/controllers/RetardsController.php';
     $retardsController = new RetardsController();
     include 'app/views/livres/retards.php';
-} elseif ($route[0] === 'scanner') {
-    // Gestion du scanner
-    require_once 'app/models/Scanner.php';
-    require_once 'app/controllers/ScannerController.php';
-    $scannerModel = new Scanner($pdo);
+} elseif ($route[0] == 'scanner') {
+    require "app/models/Scanner.php";
+    require "app/controllers/ScannerController.php";
+    $scannerModel = new Scanner($pdo); // Instancier le modèle du scanner
+    // $scannerController = new ScannerController($scannerModel); // Instancier le contrôleur du scanner
 
-    if (isset($route[1]) && $route[1] === 'resultat') {
-        include 'app/views/scanner/resultat.php';
-    } elseif ($route[1] === 'emprunter') {
-        include 'app/views/scanner/emprunter.php';
+    if (isset($route[1]) || $route == '') {
+        switch ($route[1]) {
+
+            case 'resultat':
+                include 'app/views/scanner/resultat.php';
+                break;
+            case 'emprunter':
+                include 'app/views/scanner/emprunter.php';
+                break;
+            default:
+                include 'views/404.php';
+                break;
+        }
     } else {
         include 'app/views/scanner/scan.php';
     }
