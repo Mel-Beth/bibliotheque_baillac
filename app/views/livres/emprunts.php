@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <?php include 'includes/head.html'; ?>
-    <title>Emprunts en cours</title>
+<?php include 'includes/head.html'; ?>
+
+<title>Emprunts en cours</title>
+    <link rel="stylesheet" href="assets/css/emprunts.css">
 </head>
 
-<body>
+
+<body class="emprunts-page">
     <div class="container-emprunt">
         <!-- En-tête avec informations utilisateur -->
-        <header class="header-emprunt">
+        <header class="header-accueil">
             <div class="welcome-message">
                 <p>Bienvenue, <?= htmlspecialchars($_SESSION['employe_prenom'] ?? '') ?> <?= htmlspecialchars($_SESSION['employe_nom'] ?? '') ?> !</p>
                 <p>Rôle : <?= htmlspecialchars($_SESSION['role'] ?? '') ?></p>
@@ -23,6 +25,13 @@
                 </a>
             </div>
         </header>
+
+        <!-- Bouton Retour -->
+        <div class="scan-button">
+            <a href="accueil">
+                <button class="btn">Retour à l'accueil</button>
+            </a>
+        </div>
 
         <!-- Filtres -->
         <div class="filters">
@@ -46,17 +55,12 @@
                         </div>
                     <?php endforeach; ?>
                 </div>
-                <!-- Bouton Retour -->
-                <div class="btn-retour">
-                    <a href="index.php" class="btn">
-                        ← Retour à l'accueil
-                    </a>
-                </div>
-
             <?php else : ?>
                 <p class="no-emprunts">Aucun emprunt trouvé.</p>
             <?php endif; ?>
         </section>
+
+        
     </div>
 </body>
 

@@ -1,84 +1,122 @@
-<?php include 'includes/head.html'; 
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil Administrateur</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <?php include 'includes/head.html'; ?>
+    <title>Accueil Admin - Bibliothèque de Baillac</title>
 </head>
 
 <body>
-    <h1>Bienvenue Administrateur de la Bibliothèque Baillac</h1>
-  
-    <!-- ajout employe -->
-    <section>
-        <h2>Ajouter un employé</h2>
-        <form method="POST">
-            <label>Nom :</label>
-            <input type="text" name="nom" required>
-            <label>Prénom :</label>
-            <input type="text" name="prenom" required>
-            <label>Email :</label>
-            <input type="email" name="email" required>
-            <label>Mot de passe :</label>
-            <input type="password" name="mot_de_passe" required>
-            <label>Rôle</label>
-            <input type="number" name="role" min="1" max="2" required>
-            <label>Batiment</label>
-            <input type="text" name="batiment" required>
-            <button type="submit" name="action" value="add">Ajouter</button>
-        </form>
-    </section>
+    <div class="container-accueil">
+        <!-- En-tête avec informations utilisateur -->
+        <header class="header-accueil">
+            <div class="welcome-message">
+                <p>Bienvenue, <?= htmlspecialchars($_SESSION['employe_prenom'] ?? 'Administrateur') ?> <?= htmlspecialchars($_SESSION['employe_nom'] ?? '') ?> !</p>
+                <p>Rôle : <?= htmlspecialchars($_SESSION['role'] === '1' ? 'Administrateur' : 'Responsable') ?></p>
+                <p>Bâtiment : <?= htmlspecialchars($_SESSION['batiment'] ?? 'N/A') ?></p>
+            </div>
+            <!-- Bouton Déconnexion -->
+            <div class="logout-btn">
+                <a href="logout" title="Déconnexion">
+                    <i class="fas fa-sign-out-alt"></i> <!-- Icône de déconnexion -->
+                </a>
+            </div>
+        </header>
 
-    <section>
-        <h2>Liste des employés</h2>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Email</th>
-                    <th>Rôle</th>
-                    <th>Batiment</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            <tbody>
-                <?php foreach ($employes as $employe) : ?>
-                    <tr>
-                        <td><?= htmlspecialchars($employe['id_employe']); ?></td>
-                        <td><?= htmlspecialchars($employe['nom']); ?></td>
-                        <td><?= htmlspecialchars($employe['prenom']); ?></td>
-                        <td><?= htmlspecialchars($employe['email']); ?></td>
-                        <td><?= $employe['role'] === '1' ? 'Administrateur' : 'Employé'; ?></td>
-                        <td><?= htmlspecialchars($employe['batiment']); ?></td>
-                        <td>
-                            <form method="POST" style="display:inline;">
-                                <input type="hidden" name="id_employe" value="<?= $employe['id_employe']; ?>">
-                                <button type="submit" name="action" value="delete">Supprimer</button>
-                            </form>
-                            <form method="POST" style="display:inline;">
-                                <input type="hidden" name="id_employe" value="<?= $employe['id_employe']; ?>">
-                                <input type="text" name="new_section" placeholder="Nouvelle section" required>
-                                <button type="submit" name="action" value="reassign">Réaffecter</button>
-                            </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
+        
+            <!-- Liste des employés -->
+            <section class="table-container">
+                <h2>Liste des employés</h2>
+                <div class="scrollable-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Email</th>
+                                <th>Rôle</th>
+                                <th>Bâtiment</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($employes as $employe): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($employe['id_employe']) ?></td>
+                                    <td><?= htmlspecialchars($employe['nom']) ?></td>
+                                    <td><?= htmlspecialchars($employe['prenom']) ?></td>
+                                    <td><?= htmlspecialchars($employe['email']) ?></td>
+                                    <td><?= $employe['role'] === '1' ? 'Administrateur' : 'Employé' ?></td>
+                                    <td><?= htmlspecialchars($employe['batiment']) ?></td>
+                                    <td>
+                                        <form method="POST" style="display:inline;">
+                                            <input type="hidden" name="id_employe" value="<?= $employe['id_employe'] ?>">
+                                            <button type="submit" name="action" value="delete">Supprimer</button>
+                                        </form>
+                                        <form method="POST" style="display:inline;">
+                                            <input type="hidden" name="id_employe" value="<?= $employe['id_employe'] ?>">
+                                            <input type="text" name="new_section" placeholder="Nouvelle section" required>
+                                            <button type="submit" name="action" value="reassign">Réaffecter</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
-            </tbody>
-
-            </tbody>
-        </table>
-    </section>
-
-    <p><a href="logout">Se déconnecter</a></p>
+            <!-- Section principale -->
+        <main class="key-metrics">
+            <!-- Ajouter un employé -->
+            <section class="glass-form left-align">
+                <h2>Ajouter un employé</h2>
+                <form method="POST">
+                    <label>Nom :</label>
+                    <input type="text" name="nom" required>
+                    <label>Prénom :</label>
+                    <input type="text" name="prenom" required>
+                    <label>Email :</label>
+                    <input type="email" name="email" required>
+                    <label>Mot de passe :</label>
+                    <input type="password" name="mot_de_passe" required>
+                    <label>Rôle :</label>
+                    <select name="role" required>
+                        <option value="1">Administrateur</option>
+                        <option value="2">Employé</option>
+                    </select>
+                    <label>Bâtiment :</label>
+                    <input type="text" name="batiment" required>
+                    <button type="submit" name="action" value="add">Ajouter</button>
+                </form>
+            </section>
+            
+        </main>
+    </div>
 </body>
-
 </html>
+
+<!-- se srvir de ca  -->
+<!-- // Ajoute un nouvel utilisateur avec transaction sql
+  public function addUser(User $user) {
+    try{
+      $this->db->beginTransaction();
+        $query = $this->db->prepare(
+        "INSERT INTO user(lastname, firstname, email, city, city_code, sex)
+        VALUES(:lastname, :firstname, :email, :city, :city_code, :sex)"
+      );
+
+      $result = $query->execute([
+        "lastname" => htmlspecialchars($user->getLastname()),
+        "firstname" => htmlspecialchars($user->getFirstname()),
+        "email" => htmlspecialchars($user->getEmail()),
+        "city" => htmlspecialchars($user->getCity()),
+        "city_code" => htmlspecialchars($user->getCity_code()),
+        "sex" => htmlspecialchars($user->getSex())
+      ]);
+      $this->db->commit();
+      return $result;
+    }
+    catch (\Exception $e){
+      $this->db->rollBack();
+      } -->
