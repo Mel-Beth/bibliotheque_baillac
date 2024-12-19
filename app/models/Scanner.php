@@ -43,8 +43,8 @@ class Scanner {
         return $stmt->fetchColumn() > 0;
     }
 
-    public function updateOrAddTransaction($exemplaireId, $adherentId, $dateRetour) {
-        // Vérifier si le livre est déjà emprunté
+    public function updateOrAddTransaction($exemplaireId, $adherentId, $dateRetour, $id_employe) {
+        
         $query = "SELECT id_transaction FROM historique_transactions WHERE id_exemplaire = :exemplaire_id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':exemplaire_id', $exemplaireId, PDO::PARAM_INT);
@@ -54,40 +54,48 @@ class Scanner {
         if ($idTransaction) {
             // Mettre à jour l'emprunt avec le nouvel adhérent
             $query = "UPDATE historique_transactions
-                      SET id_adherent = :adherent_id, date_retour = :date_retour 
+                      SET id_adherent = :adherent_id, 
+                      date_retour = :date_retour,
+                      id_employe = :id_employe
                       WHERE id_exemplaire = :exemplaire_id";
         } else {
             // Ajouter une nouvelle entrée dans l'historique des transactions
             $query = "INSERT INTO historique_transactions 
-                      (id_exemplaire, id_adherent, date_emprunt, date_retour)
-                      VALUES (:exemplaire_id, :adherent_id, NOW(), :date_retour)";
+                      (id_exemplaire, id_adherent, date_emprunt, date_retour, id_employe)
+                      VALUES (:exemplaire_id, :adherent_id, NOW(), :date_retour, :id_employe)";
         }
 
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':exemplaire_id', $exemplaireId, PDO::PARAM_INT);
         $stmt->bindParam(':adherent_id', $adherentId, PDO::PARAM_INT);
         $stmt->bindParam(':date_retour', $dateRetour, PDO::PARAM_STR);
+        $stmt->bindParam(':id_employe', $id_employe, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->rowCount();
     }
-    public function retournerLivre($exemplaireId) {
+    public function retournerLivre($exemplaireId, $id_employe) {
         $query = "UPDATE historique_transactions 
-                  SET date_retour = NOW()
+                  SET date_retour = NOW(),
+                  id_employe = :id_employe
+
                   WHERE id_exemplaire = :exemplaire_id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':exemplaire_id', $exemplaireId, PDO::PARAM_INT);
+        $stmt->bindParam(':id_employe', $id_employe, PDO::PARAM_INT);
         $stmt->execute();
     
         return $stmt->rowCount();
     }
-    public function renouvelerEmprunt($exemplaireId, $ajoutDateRetour) {
+    public function renouvelerEmprunt($exemplaireId, $ajoutDateRetour, $id_employe) {
         $query = "UPDATE historique_transactions 
-                  SET date_retour = :ajoutDateRetour 
+                  SET date_retour = :ajoutDateRetour,
+                  id_employe = :id_employe
                   WHERE id_exemplaire = :exemplaire_id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':exemplaire_id', $exemplaireId, PDO::PARAM_INT);
         $stmt->bindParam(':ajoutDateRetour', $ajoutDateRetour, PDO::PARAM_STR);
+        $stmt->bindParam(':id_employe', $id_employe, PDO::PARAM_INT);
 
         $stmt->execute();
     
