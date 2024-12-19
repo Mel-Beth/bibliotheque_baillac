@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?php include 'includes/head.html'; ?>
+    
     <title>Accueil Admin- Bibliothèque de Baillac</title>
     <link rel="stylesheet" href="">
 </head>
