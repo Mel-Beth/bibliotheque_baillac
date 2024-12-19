@@ -2,12 +2,28 @@
 @import url(scan.css);
 @import url(resultat-scann.css);
 @import url(accueil.css);
+<<<<<<< HEAD
 @import url(accueil_admin.css);
+=======
+@import url(emprunter.css);
+@import url(emprunts.css);
+>>>>>>> 346fea5b5d811f3febb4abca24dc00327f5c65bf
 
 /* *,*:before,*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+/* Styles de base */
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #c2e59c, #64b3f4); /* Couleurs naturelles et apaisantes */
+    font-family: 'Roboto', sans-serif;
 }
 
 h1{
@@ -18,4 +34,34 @@ h1{
 }
 img {
     border-radius: 5px;
+<<<<<<< HEAD
 } */
+=======
+}
+
+a{
+    text-decoration: none;
+    color: aliceblue;
+}
+
+
+/* le button retour  */
+.fixed-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.fixed-button button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.fixed-button button:hover {
+    background-color: #0056b3;
+}
+>>>>>>> 346fea5b5d811f3febb4abca24dc00327f5c65bf

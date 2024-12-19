@@ -1,15 +1,3 @@
-/* Styles de base */
-body, html {
-    height: 100%;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #c2e59c, #64b3f4); /* Couleurs naturelles et apaisantes */
-    font-family: 'Roboto', sans-serif;
-}
-
-
 .container-login {
     background: rgba(255, 255, 255, 0.25);
     border-radius: 20px;

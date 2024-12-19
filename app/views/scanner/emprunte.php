@@ -16,15 +16,34 @@
                 <td><?= htmlspecialchars($livre['date_emprunt']) ?></td>
             </tr>
             <tr>
+                <td>Date de Retour</td>
+                <td><?= htmlspecialchars($livre['date_retour'] ?? 'null') ?></td>
+            </tr>
+            <tr>
                 <td>Par</td>
-                <td><?= htmlspecialchars($livre['prenom_employe']) ?> <?= htmlspecialchars($livre['nom_employe']) ?></td>
+                <td><?= htmlspecialchars($livre['prenom_employe']) ?> <?= htmlspecialchars($livre['nom_employe']) ?>
+                </td>
             </tr>
             <tr>
                 <td>État</td>
                 <td><?= htmlspecialchars($livre['etat']) ?></td>
             </tr>
         </table>
-        <button class="renew">Renouveler emprunt</button>
-        <button class="return"><a href="./app/views/scanner/retour_bibliotheque.php">Retour Bibliothèque</a></button>
+        <form method='post' action='scanner/resultat'> <input type='hidden' name='exemplaire-id' value='<?= htmlspecialchars($livre['id_exemplaire']) ?>'> <input type='hidden' name='action' value='renouveler'> <button type='submit' class="renew">Renouveler emprunt</button> </form>
+
+
+        <!-- retour button  -->
+        <form method='post' action='scanner/resultat'> 
+            <input type='hidden' name='exemplaire-id' value='<?= htmlspecialchars($livre['id_exemplaire']) ?>'> 
+            <input type='hidden' name='action' value='retour'>
+            <button type='submit' class="return">Retourner à la Bibliothèque</button> 
+            </form>
     </div>
 </div>
+
+
+<?php
+
+ 
+
+    

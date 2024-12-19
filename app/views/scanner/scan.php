@@ -2,18 +2,19 @@
     <?php include('includes/head.html'); ?>
     <script src="https://cdn.jsdelivr.net/npm/html5-qrcode/minified/html5-qrcode.min.js"></script>
 </head>
-
 <body>
+<div class="fixed-button">
+    <button ><a href="accueil">< Retour</a></button>
+</div>
     <div class="section-scan">
         <div class="container">
             <h1>Scanner QR Code</h1>
             <div id="reader"></div>
-
             <form id="scan-form" method="post" action="scanner/resultat">
                 <input type="hidden" name="qr-result" id="result">
-                <p>Si le scan ne fonctionne pas, entrez manuellement le contenu du QR code :</p>
-                <input type="text" name="manual-result" placeholder="Entrez le QR code ici">
-                <button type="submit">Envoyer</button>
+                <p>Entrez manuellement :</p>
+                <input type="text" name="manual-result" placeholder="Entrez le QR code ici" required>
+                <button type="submit">Valider</button>
             </form>
         </div>
     </div>
