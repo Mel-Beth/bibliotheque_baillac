@@ -1,55 +1,156 @@
 /* Styles de base */
 body, html {
-    
+    margin: 0;
+    padding: 0;
+    height: 100%;
     font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #009292, #f4f4f9);
-    color: #333;
-   
-    overflow-x: hidden;
+    background: linear-gradient(135deg, #c2e59c, #64b3f4); /* Couleurs naturelles et apaisantes */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
 
-/* Header centré en haut */
+/* Conteneur principal */
+.container-accueil {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* En-tête */
 .header-accueil {
     background-color: #009292;
     color: white;
     padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Informations utilisateur alignées à gauche */
+.welcome-message {
+    text-align: left;
+}
+
+.welcome-message p {
+    margin: 5px 0;
+    font-size: 1em;
+}
+
+/* Bouton Déconnexion aligné en haut à droite */
+.logout-btn {
+    display: flex;
+    align-items: center;
+}
+
+.logout-btn a {
+    color: white;
+    font-size: 1.5em;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.logout-btn a:hover {
+    color: #f1f1f1;
+}
+
+.logout-btn i {
+    margin-left: 5px;
+}
+
+/* Section de la table */
+.table-container {
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-container h2 {
+    font-size: 1.5em;
+    color: #009292;
+    margin-bottom: 20px;
     text-align: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.scrollable-table {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 0.9em;
+}
+
+thead {
+    background-color: #009292;
+    color: white;
     position: sticky;
     top: 0;
-    z-index: 1000;
-    margin: 0;
+    z-index: 10;
 }
 
-.container-accueil {
-    width: 95%;
-    margin: auto;
-    padding: 20px;
-    
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 20px;
+tr:nth-child(even) {
+    background-color: #f2f2f2;
 }
 
-.welcome-message {
-    margin-top: 10px;
+button {
+    background-color: #009292;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-/* Glassmorphism for form */
+button:hover {
+    background-color: #007474;
+}
+
+input[type="text"], select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+/* Formulaire pour ajouter un employé */
 .glass-form {
     backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 15px;
     padding: 30px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
+    width: 80%;    
     color: #000;
     text-align: left;
-    position: relative;
-    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.glass-form h2 {
+    color: #009292;
+    font-size: 1.5em;
+    margin-bottom: 20px;
 }
 
 .glass-form label {
@@ -58,10 +159,10 @@ body, html {
     font-weight: bold;
 }
 
-.glass-form input, .form-input {
+.glass-form input, .glass-form select {
     width: 100%;
     padding: 10px;
-    border: none;
+    border: 1px solid #ddd;
     border-radius: 5px;
     margin-bottom: 15px;
     background: rgba(255, 255, 255, 0.4);
@@ -71,11 +172,7 @@ body, html {
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.glass-form input::placeholder {
-    color: rgba(51, 51, 51, 0.7);
-}
-
-.glass-form button, .form-button {
+.glass-form button {
     display: inline-block;
     padding: 10px 20px;
     background-color: #009292;
@@ -87,97 +184,23 @@ body, html {
     font-size: 1em;
 }
 
-.glass-form button:hover, .form-button:hover {
+.glass-form button:hover {
     background-color: #007474;
 }
 
-/* Table styling */
-.table-container {
-    flex: 1;
-    max-width: 100%;
-    overflow-y: auto;
-    margin-top: 60px; /* Ajuste pour éviter de dépasser le haut de la page */
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.table-container table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-}
-
-.table-container thead {
-    position: sticky;
-    top: 0;
-    background-color: #009292;
-    color: white;
-    z-index: 10;
-}
-
-.table-container th, .table-header {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    word-wrap: break-word;
-    background-color: #009292;
-    color: white;
-    font-weight: bold;
-}
-
-.table-container td, .table-cell {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    word-wrap: break-word;
-}
-
-.table-container tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-.table-container button {
-    background-color: #009292;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.table-container button:hover {
-    background-color: #007474;
-}
-
-/* Adjust layout for left-align form and table */
-.content-layout {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 20px;
-    gap: 20px;
-}
-
-.left-align {
-    flex: 0 0 35%;
-}
-
+/* Responsiveness */
 @media (max-width: 768px) {
-    .content-layout {
+    .header-accueil {
         flex-direction: column;
-        gap: 10px;
+        text-align: center;
     }
 
     .glass-form {
-        width: 100%;
-        margin: 0 auto;
+        max-width: 90%;
+        margin: 0 auto 20px;
     }
 
-    .table-container {
-        margin-top: 10px;
+    table {
+        font-size: 0.8em;
     }
 }

@@ -2,14 +2,9 @@
 @import url(scan.css);
 @import url(resultat-scann.css);
 @import url(accueil.css);
-<<<<<<< HEAD
 @import url(accueil_admin.css);
-=======
-@import url(emprunter.css);
-@import url(emprunts.css);
->>>>>>> 346fea5b5d811f3febb4abca24dc00327f5c65bf
 
-/* *,*:before,*::after {
+*,*:before,*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -24,9 +19,6 @@ h1{
 }
 img {
     border-radius: 5px;
-<<<<<<< HEAD
-} */
-=======
 }
 
 a{
@@ -54,4 +46,3 @@ a{
 .fixed-button button:hover {
     background-color: #0056b3;
 }
->>>>>>> 346fea5b5d811f3febb4abca24dc00327f5c65bf

@@ -1,12 +1,12 @@
 /* Styles de base */
 body, html {
     
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #c2e59c, #64b3f4); /* Couleurs naturelles et apaisantes */
     font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #009292, #f4f4f9);
+    color: #333;
+   
+    overflow-x: hidden;
 }
-
 /* Conteneur principal avec espacement pour éviter les conflits */
 .container-emprunt {
     width: 100%;
