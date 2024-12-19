@@ -28,16 +28,58 @@ if ($route[0] === '' || $route[0] === 'accueil') {
     if (isset($_SESSION['role']) && ($_SESSION['role'] === 'responsable' || $_SESSION['role'] === 'responsable_site')) {
         require 'app/models/Employe.php';
         require 'app/controllers/EmployeController.php';
+
+        $employeModel = new Employe($pdo);
+        $employeController = new EmployeController($employeModel);
+
+        // Récupérer les employés, bâtiments et étages
+        $employes = $employeController->getAllEmployes();
+        $batiments = $employeController->getAllBatiments();
+        $etages = $employeController->getAllEtages();
+
         include 'app/views/accueil_admin.php'; // Page admin
     } else {
         include 'app/views/accueil.php'; // Page d'accueil pour les bibliothécaires
     }
 } elseif ($route[0] === 'accueil_admin') {
-    // Page spécifique pour les administrateurs
     if (isset($_SESSION['role']) && ($_SESSION['role'] === 'responsable' || $_SESSION['role'] === 'responsable_site')) {
         require 'app/models/Employe.php';
         require 'app/controllers/EmployeController.php';
-        include 'app/views/accueil_admin.php';
+
+        $employeModel = new Employe($pdo);
+        $employeController = new EmployeController($employeModel);
+
+        // Gestion des actions POST (ajout, suppression, réaffectation)
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST['action'])) {
+                switch ($_POST['action']) {
+                    case 'add':
+                        $employeController->addEmploye($_POST);
+                        break;
+                    case 'delete':
+                        $employeController->deleteEmploye($_POST['id_employe']);
+                        break;
+                    case 'reassignBatiment':
+                        $employeController->reassignBatiment($_POST['id_employe'], $_POST['new_batiment']);
+                        break;
+                    case 'reassignEtage':
+                        $employeController->reassignEtage($_POST['id_employe'], $_POST['new_etage']);
+                        break;
+                    case 'reassignBatimentEtage':
+                        if (isset($_POST['new_batiment'], $_POST['new_etage'])) {
+                            $employeController->reassignBatimentEtage($_POST['id_employe'], $_POST['new_batiment'], $_POST['new_etage']);
+                        }
+                        break;
+                }
+            }
+        }
+
+        // Récupérer les employés, bâtiments et étages
+        $employes = $employeController->getAllEmployes();
+        $batiments = $employeController->getAllBatiments();
+        $etages = $employeController->getAllEtages();
+
+        include 'app/views/accueil_admin.php'; // Inclure la vue admin
     } else {
         header('Location: accueil');
         exit;
@@ -49,20 +91,18 @@ if ($route[0] === '' || $route[0] === 'accueil') {
 } elseif ($route[0] === 'retours') {
     require_once 'app/controllers/RetoursController.php';
     $retoursController = new RetoursController($pdo);
-    $retoursController->index(); // Modification : appeler le contrôleur pour afficher les retours
+    $retoursController->index();
 } elseif ($route[0] === 'retards') {
     require_once 'app/controllers/RetardsController.php';
     $retardsController = new RetardsController($pdo);
-    $retardsController->index(); // Modification : appeler le contrôleur pour afficher les retards
-} elseif ($route[0] == 'scanner') {
+    $retardsController->index();
+} elseif ($route[0] === 'scanner') {
     require "app/models/Scanner.php";
     require "app/controllers/ScannerController.php";
-    $scannerModel = new Scanner($pdo); // Instancier le modèle du scanner
-    // $scannerController = new ScannerController($scannerModel); // Instancier le contrôleur du scanner
+    $scannerModel = new Scanner($pdo);
 
     if (isset($route[1]) || $route == '') {
         switch ($route[1]) {
-
             case 'resultat':
                 include 'app/views/scanner/resultat.php';
                 break;
@@ -80,7 +120,6 @@ if ($route[0] === '' || $route[0] === 'accueil') {
         include 'app/views/scanner/scan.php';
     }
 } elseif ($route[0] === 'livres') {
-    // Gestion des livres
     require_once 'app/controllers/LivreController.php';
     $livreController = new LivreController();
 
@@ -94,25 +133,21 @@ if ($route[0] === '' || $route[0] === 'accueil') {
         include 'app/views/404.php';
     }
 } elseif ($route[0] === 'messages') {
-    // Gestion des messages
     require_once 'app/models/Message.php';
     require_once 'app/controllers/MessageController.php';
     $messageModel = new Message($pdo);
     $messageController = new MessageController($messageModel);
     $messageController->afficherMessages();
 } elseif ($route[0] === 'connexion') {
-    // Connexion
     require_once 'app/models/Employe.php';
     require_once 'app/controllers/EmployeController.php';
     $employeModel = new Employe($pdo);
     $employeController = new EmployeController($employeModel);
     $employeController->loginEmploye();
 } elseif ($route[0] === 'logout') {
-    // Déconnexion
     require_once 'app/controllers/LogoutController.php';
     $logoutController = new LogoutController();
     $logoutController->logout();
 } else {
-    // Page 404 pour les routes non reconnues
     include 'app/views/404.php';
 }

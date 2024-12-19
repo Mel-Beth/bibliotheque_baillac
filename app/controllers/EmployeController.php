@@ -14,7 +14,7 @@ class EmployeController
         }
     }
 
-    // connexion des employés
+    // Connexion des employés
     public function loginEmploye()
     {
         $error = '';
@@ -25,14 +25,10 @@ class EmployeController
 
             if (empty($email) || empty($password)) {
                 $error = 'Veuillez remplir tous les champs.';
-                error_log($error);
             } else {
-                error_log("Tentative de connexion pour l'email : $email");
-
                 $employe = $this->model->getEmployeByEmail($email);
 
                 if ($employe) {
-                    error_log("Employé trouvé : " . json_encode($employe));
                     if (password_verify($password, $employe['mot_de_passe'])) {
                         // Mise à jour des variables de session
                         $_SESSION['employe_id'] = $employe['id_employe'];
@@ -42,24 +38,18 @@ class EmployeController
                         $_SESSION['batiment'] = $employe['batiment'];
                         $_SESSION['etage'] = $employe['etage'];
 
-                    
-                        // Debug pour vérifier le rôle
-                        // error_log("Rôle de l'employé: " . $_SESSION['role']); // Débogage
-                        // var_dump($_SESSION); // Ajout du var_dump pour vérifier les données dans la session
-                    
+                        // Redirection selon le rôle
                         if ($_SESSION['role'] === 'responsable' || $_SESSION['role'] === 'responsable_site') {
-                            header('Location: accueil_admin'); // Rediriger vers la page admin
+                            header('Location: accueil_admin');
                         } else {
-                            header('Location: accueil'); // Rediriger vers la page d'accueil classique
+                            header('Location: accueil');
                         }
                         exit;
                     } else {
                         $error = 'Mot de passe incorrect.';
-                        error_log($error);
                     }
                 } else {
                     $error = 'Email incorrect ou non trouvé.';
-                    error_log($error);
                 }
             }
         }
@@ -72,12 +62,14 @@ class EmployeController
         $nom = trim($data['nom']);
         $prenom = trim($data['prenom']);
         $email = trim($data['email']);
+        $telephone = trim($data['telephone']);
         $mot_de_passe = password_hash($data['mot_de_passe'], PASSWORD_BCRYPT);
         $role = $data['role'];
-        $section = trim($data['section']);
+        $batiment = trim($data['batiment']);
+        $etage = trim($data['etage']);
 
-        if (!empty($nom) && !empty($prenom) && !empty($email) && !empty($data['mot_de_passe']) && !empty($role)) {
-            $this->model->createEmploye($nom, $prenom, $email, $mot_de_passe, $role, $section);
+        if (!empty($nom) && !empty($prenom) && !empty($email) && !empty($telephone) && !empty($role)) {
+            $this->model->createEmploye($nom, $prenom, $email, $telephone, $mot_de_passe, $role, $batiment, $etage);
             header('Location: accueil_admin');
             exit;
         } else {
@@ -97,22 +89,46 @@ class EmployeController
         }
     }
 
-    // Réaffecter un employé à une nouvelle section
-    public function reassignEmploye($id, $newSection)
+    // Réaffecter un employé à un nouvel étage
+    public function reassignEmploye($id, $newEtage)
     {
-        if (!empty($id) && !empty($newSection)) {
-            $this->model->updateSection($id, $newSection);
+        if (!empty($id) && !empty($newEtage)) {
+            $this->model->updateEtage($id, $newEtage);
             header('Location: accueil_admin');
             exit;
         } else {
-            echo "ID employé ou nouvelle section manquants pour la réaffectation.";
+            echo "ID employé ou nouvel étage manquants pour la réaffectation.";
         }
+    }
+
+    // Réaffecter un employé à un nouveau bâtiment
+    public function reassignBatiment($id, $newBatiment)
+    {
+        if (!empty($id) && !empty($newBatiment)) {
+            $this->model->updateBatiment($id, $newBatiment);
+            header('Location: accueil_admin');
+            exit;
+        } else {
+            echo "ID employé ou nouveau bâtiment manquants pour la réaffectation.";
+        }
+    }
+
+    // Récupérer tous les employés
+    public function getAllEmployes()
+    {
+        return $this->model->getAllEmployes();
+    }
+
+    // Récupérer tous les bâtiments
+    public function getAllBatiments()
+    {
+        return $this->model->getAllBatiments();
+    }
+
+    // Récupérer tous les étages
+    public function getAllEtages()
+    {
+        return $this->model->getAllEtages();
     }
 }
 
-
-    $employes = $pdo->query("SELECT * FROM employes")->fetchAll(PDO::FETCH_ASSOC);
-    
-   
-
-?>
