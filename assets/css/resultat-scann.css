@@ -1,3 +1,12 @@
+#result-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Hauteur totale de la fenêtre */
+    text-align: center;
+    flex-direction: column;
+}
+
 .page-emprunte .container,
 .page-rendu .container {
     background-color: white;
@@ -34,16 +43,16 @@
     width: 100%;
     margin-bottom: 20px;
     border-collapse: separate;
-    border-spacing: 5px; /* Ajustez la valeur pour l'espace désiré */
-
+    border-spacing: 5px;
 }
 
 .page-emprunte .container td,
 .page-rendu .container td {
     padding: 10px;
-    border: 1px solid #ddd; /* Bordure légère */
-    border-radius: 5px; /* Optionnel : arrondir les coins de la cellule */
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
+
 .page-emprunte .container button,
 .page-rendu .container button {
     width: 100%;
@@ -53,37 +62,47 @@
     font-size: 16px;
     cursor: pointer;
     margin-bottom: 10px;
-    transition: background-color 0.3s, transform 0.2s; /* Ajout d'une transition douce */
+    transition: background-color 0.3s, transform 0.2s;
 }
 
-.page-emprunte .container .renew {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.page-emprunte .container .renew:hover {
-    background-color: #45a049; /* Couleur de fond au survol */
-    transform: scale(1.05); /* Légère augmentation de la taille au survol */
-}
-
+.page-emprunte .container .renew,
+.page-rendu .container .renew,
 .page-emprunte .container .return,
 .page-rendu .container .borrow {
-    background-color: #007bff;
+    background-color: #009292;
     color: white;
 }
 
+.page-emprunte .container .renew:hover,
+.page-rendu .container .renew:hover,
 .page-emprunte .container .return:hover,
 .page-rendu .container .borrow:hover {
-    background-color: #007bff; /* Couleur de fond au survol pour le bouton de retour */
-    transform: scale(1.05); /* Légère augmentation de la taille au survol */
+    background-color: #006464;
+    transform: scale(1.05);
 }
 
-.page-rendu .container .borrow {
-    background-color: #2196F3;
-    color: white;
-}
+/* CSS spécifique pour les écrans mobiles */
+@media (max-width: 600px) {
+    .page-emprunte .container,
+    .page-rendu .container {
+        width: 100%;
+        padding: 10px;
+    }
 
-.page-rendu .container .borrow:hover {
-    background-color: #1976D2; /* Couleur de fond au survol pour le bouton d'emprunt */
-    transform: scale(1.05); /* Légère augmentation de la taille au survol */
+    .page-emprunte .container h1,
+    .page-rendu .container h1 {
+        font-size: 20px;
+    }
+
+    .page-emprunte .container .book-photo,
+    .page-rendu .container .book-photo {
+        height: 100px;
+        font-size: 14px;
+    }
+
+    .page-emprunte .container button,
+    .page-rendu .container button {
+        font-size: 14px;
+        padding: 8px;
+    }
 }

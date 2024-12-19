@@ -2,7 +2,6 @@
 body, html {
     height: 100%;
     margin: 0;
-    display: flex;
     justify-content: center;
     align-items: center;
     background: linear-gradient(135deg, #c2e59c, #64b3f4); /* Couleurs naturelles et apaisantes */

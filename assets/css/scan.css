@@ -1,11 +1,16 @@
 .section-scan .container {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    background-color: #00929237; 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 20px;
+    color: black;
+    max-width: 80%; 
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 20px;
 }
 
 .section-scan #reader {
@@ -21,22 +26,42 @@
     max-width: 350px;
     margin-top: 20px;
 }
-.section-scan input[type="text"], button {
+.section-scan input[type="text"], .section-scan button {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
 }
+
 .section-scan button {
-    background-color: #007bff;
+    background-color: #009292;
     color: white;
     border: none;
 }
+
 .section-scan button:hover {
-    background-color: #0056b3;
+    background-color: rgb(0, 62, 0); /* Vert plus foncé pour le hover */
 }
+
 .section-scan #result-container {
     margin-top: 20px;
     text-align: center;
+}
+
+@media (max-width: 768px) {
+    /* Ajustements pour les écrans plus petits */
+    .section-scan .container {
+        padding: 10px;
+    }
+    .section-scan input[type="text"], .section-scan button {
+        padding: 8px;
+    }
+}
+
+@media (min-width: 1200px) {
+    /* Ajustements pour les écrans plus grands */
+    .section-scan .container {
+        max-width: 600px; /* Limite la largeur sur les grands écrans */
+    }
 }

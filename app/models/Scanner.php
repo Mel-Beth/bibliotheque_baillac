@@ -101,5 +101,13 @@ class Scanner {
     
         return $stmt->rowCount();
     }
-    
+    public function ajoutExemplaire($qrCode, $etat, $isbn) {
+        $query = "INSERT INTO exemplaires (id_exemplaire, etat, isbn) VALUES (:qr_code, :etat, :isbn)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':qr_code', $qrCode, PDO::PARAM_STR);
+        $stmt->bindParam(':etat', $etat, PDO::PARAM_STR);
+        $stmt->bindParam(':isbn', $isbn, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
 }

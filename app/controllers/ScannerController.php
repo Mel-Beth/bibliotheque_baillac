@@ -54,5 +54,14 @@ class ScannerController {
             return "Une erreur est survenue lors du renouvellement de l'emprunt.";
         }
     }
+    public function ajoutExemplaire($qrCode, $etat, $isbn) {
+        
+        $result = $this->scannerModel->ajoutExemplaire($qrCode, $etat, $isbn);
+        if ($result) {
+            return "L'exemplaire a été ajouté avec succès.";
+        } else {
+            return "Une erreur est survenue.";
+        }
+    }
     
 }

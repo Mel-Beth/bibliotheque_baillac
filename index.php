@@ -69,6 +69,9 @@ if ($route[0] === '' || $route[0] === 'accueil') {
             case 'emprunter':
                 include 'app/views/scanner/emprunter.php';
                 break;
+            case 'ajout_exemplaire':
+                include 'app/views/scanner/ajout_exemplaire.php';
+                break;
             default:
                 include 'views/404.php';
                 break;

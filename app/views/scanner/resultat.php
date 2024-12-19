@@ -26,7 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $exemplaireId = $_POST['exemplaire-id'];
         $message = $scannerController->retournerLivre($exemplaireId);
         echo "<p>" . $message . "</p>"; 
-    }elseif ($_POST['action'] == 'renouveler') { $exemplaireId = $_POST['exemplaire-id']; $message = $scannerController->renouvelerEmprunt($exemplaireId); echo "<p>" . $message . "</p>" 
+    }elseif ($_POST['action'] == 'renouveler') {
+         $exemplaireId = $_POST['exemplaire-id']; 
+         $message = $scannerController->renouvelerEmprunt($exemplaireId);
+          echo "<p>" . $message . "</p>" 
     ; }
 
     // Vérification si le QR Code a été défini
@@ -44,7 +47,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     include './app/views/scanner/disponible.php';
                 }
             } else {
-                echo "<p>Aucun livre trouvé avec ce code : </p>" . htmlspecialchars($qrCode);
+                echo "<p>Aucun livre trouvé avec ce code : </p>" ."<p>". htmlspecialchars($qrCode) ."</p>";
+                ?>
+                <div class="ajout-exemplaire">
+                    <form action="scanner/ajout_exemplaire" method="post">
+                        <input type="hidden" value="<?= $qrCode ?>" name="qrCode">
+                        <button type='submit'>Ajouter Nouvelle Exemplaire</button>
+                    </form>
+                </div>
+                
+                
+                <?PHP
             }
             echo "</div>";
         } catch (Exception $e) {

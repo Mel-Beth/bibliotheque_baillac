@@ -10,7 +10,6 @@ body, html {
     color: #333;
     height: 100%;
     overflow-x: hidden;
-    display: flex;
     justify-content: center;
     align-items: flex-start;
 }
