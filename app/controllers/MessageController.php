@@ -11,6 +11,6 @@ class MessageController
     public function afficherMessages()
     {
         $messages = $this->messageModel->getMessages();
-        include 'app/views/messages/list.php';
+        include 'app/views/messages/listMessage.php';
     }
 }
