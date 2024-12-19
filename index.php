@@ -68,7 +68,7 @@ if ($route[0] === '' || $route[0] === 'accueil') {
 //     $messageModel = new Message($pdo);
 //     $messageController = new MessageController($messageModel);
 //     $messageController->afficherMessages();
-// } elseif ($route[0] === 'connexion') {
+} elseif ($route[0] === 'connexion') {
     // Connexion
     require_once 'app/models/Employe.php';
     require_once 'app/controllers/EmployeController.php';
