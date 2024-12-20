@@ -1,6 +1,6 @@
 <div class="page-rendu">
     <div class="container">
-        <h1>Rendu</h1>
+        <h1>Disponible</h1>
         <div class="book-photo"><img height="140px" src="assets/images/livre.webp" alt="Photo de l'ouvrage"></div>
         <table>
             <tr>

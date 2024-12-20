@@ -43,7 +43,7 @@
             <div class="metric">
                 <h2>Messagerie</h2>
                 <p>Messages non lus: <?= htmlspecialchars($messagesNonLus ?? 0) ?></p>
-                <a href="messages" class="btn">Voir tous</a>
+                <a href="#" class="btn">Voir tous</a>
             </div>
         </section>
 
