@@ -54,13 +54,18 @@ class ScannerController {
             return "Une erreur est survenue lors du renouvellement de l'emprunt.";
         }
     }
-    public function ajoutExemplaire($qrCode, $etat, $isbn) {
-        
-        $result = $this->scannerModel->ajoutExemplaire($qrCode, $etat, $isbn);
-        if ($result) {
-            return "L'exemplaire a été ajouté avec succès.";
-        } else {
-            return "Une erreur est survenue.";
+    public function ajoutExemplaire($qrCode, $etat, $isbn, $titre, $genre, $auteur, $editeur, $nombre_de_pages, $annee_publication, $resume, $langue, $chemin_img) {
+        // Appel à la méthode du modèle pour ajouter le livre et l'exemplaire avec tous les détails
+        try {
+            $result = $this->scannerModel->ajouterLivreEtExemplaire($isbn, $annee_publication, $resume, $nombre_de_pages, $langue, $chemin_img, $qrCode, $etat, $titre, $genre, $auteur, $editeur);
+            
+            if ($result) {
+                return "L'exemplaire a été ajouté avec succès.";
+            } else {
+                return "Une erreur est survenue.";
+            }
+        } catch (Exception $e) {
+            return "Une erreur est survenue : " . $e->getMessage();
         }
     }
     
